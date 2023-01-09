@@ -6,6 +6,8 @@ use App\Entity\Formation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+define("PUBLISHEDHAT", "f.publishedAt");
+
 /**
  * @extends ServiceEntityRepository<Formation>
  *
@@ -76,7 +78,7 @@ class FormationRepository extends ServiceEntityRepository
         if($table==""){
             return $this->createQueryBuilder('f')
                     ->where('f.'.$champ.' LIKE :valeur')
-                    ->orderBy('f.publishedAt', 'DESC')
+                    ->orderBy(PUBLISHEDHAT, 'DESC')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->getQuery()
                     ->getResult();            
@@ -84,7 +86,7 @@ class FormationRepository extends ServiceEntityRepository
             return $this->createQueryBuilder('f')
                     ->join('f.'.$table, 't')                    
                     ->where('t.'.$champ.' LIKE :valeur')
-                    ->orderBy('f.publishedAt', 'DESC')
+                    ->orderBy(PUBLISHEDHAT, 'DESC')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->getQuery()
                     ->getResult();                   
@@ -98,7 +100,7 @@ class FormationRepository extends ServiceEntityRepository
      */
     public function findAllLasted($nb) : array {
         return $this->createQueryBuilder('f')
-                ->orderBy('f.publishedAt', 'DESC')
+                ->orderBy(PUBLISHEDHAT, 'DESC')
                 ->setMaxResults($nb)     
                 ->getQuery()
                 ->getResult();
@@ -111,10 +113,10 @@ class FormationRepository extends ServiceEntityRepository
      */
     public function findAllForOnePlaylist($idPlaylist): array{
         return $this->createQueryBuilder('f')
-                ->join('f.playlist', 'p')
+                ->join(PUBLISHEDHAT, 'p')
                 ->where('p.id=:id')
                 ->setParameter('id', $idPlaylist)
-                ->orderBy('f.publishedAt', 'ASC')   
+                ->orderBy(PUBLISHEDHAT, 'ASC')   
                 ->getQuery()
                 ->getResult();        
     }
