@@ -6,12 +6,6 @@ use App\Entity\Playlist;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-define("ID", "p.id id");
-define("NAME", "p.name name");
-define("CATNAME", "c.name categoriename");
-define("FORMATION", "p.formations");
-define("CATEGORIE", "f.categories");
-define("CNAME", "c.name");
 /**
  * @extends ServiceEntityRepository<Playlist>
  *
@@ -22,6 +16,15 @@ define("CNAME", "c.name");
  */
 class PlaylistRepository extends ServiceEntityRepository
 {
+    // Propriétés privées de la classe PlayListRepository
+    private $id = 'p.id id';
+    private $name = 'p.name name';
+    private $nameCategory = 'c.name categoriename';
+    private $formations = 'p.formations';
+    private $categories = 'f.categories';
+    private $nameCategories = 'c.name';
+
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Playlist::class);
@@ -44,7 +47,7 @@ class PlaylistRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    
+
     /**
      * Retourne toutes les playlists triées sur un champ
      * @param type $champ
@@ -53,15 +56,15 @@ class PlaylistRepository extends ServiceEntityRepository
      */
     public function findAllOrderBy($champ, $ordre): array{
         return $this->createQueryBuilder('p')
-                ->select(ID)
-                ->addSelect(NAME)
-                ->addSelect(CATNAME)
-                ->leftjoin(FORMATION, 'f')
-                ->leftjoin(CATEGORIE, 'c')
+                ->select($this->id)
+                ->addSelect($this->name)
+                ->addSelect($this->nameCategory)
+                ->leftjoin($this->formations, 'f')
+                ->leftjoin($this->categories, 'c')
                 ->groupBy('p.id')
-                ->addGroupBy(CNAME)
+                ->addGroupBy($this->nameCategories)
                 ->orderBy('p.'.$champ, $ordre)
-                ->addOrderBy(CNAME)
+                ->addOrderBy($this->nameCategories)
                 ->getQuery()
                 ->getResult();       
     }
@@ -80,38 +83,38 @@ class PlaylistRepository extends ServiceEntityRepository
         }    
         if($table==""){      
             return $this->createQueryBuilder('p')
-                    ->select(ID)
-                    ->addSelect(NAME)
-                    ->addSelect(CATNAME)
-                    ->leftjoin(FORMATION, 'f')
-                    ->leftjoin(CATEGORIE, 'c')
+                    ->select($this->id)
+                    ->addSelect($this->name)
+                    ->addSelect($this->nameCategory)
+                    ->leftjoin($this->formations, 'f')
+                    ->leftjoin($this->categories, 'c')
                     ->where('p.'.$champ.' LIKE :valeur')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->groupBy('p.id')
-                    ->addGroupBy(NAME)
+                    ->addGroupBy($this->nameCategories)
                     ->orderBy('p.name', 'ASC')
-                    ->addOrderBy(CNAME)
+                    ->addOrderBy($this->nameCategories)
                     ->getQuery()
                     ->getResult();              
         }else{   
             return $this->createQueryBuilder('p')
-                    ->select(ID)
-                    ->addSelect(NAME)
-                    ->addSelect(CATNAME)
-                    ->leftjoin(FORMATION, 'f')
-                    ->leftjoin(CATEGORIE, 'c')
+                    ->select($this->id)
+                    ->addSelect($this->name)
+                    ->addSelect($this->nameCategory)
+                    ->leftjoin($this->formations, 'f')
+                    ->leftjoin($this->categories, 'c')
                     ->where('c.'.$champ.' LIKE :valeur')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->groupBy('p.id')
-                    ->addGroupBy(CNAME)
+                    ->addGroupBy($this->nameCategories)
                     ->orderBy('p.name', 'ASC')
-                    ->addOrderBy(CNAME)
+                    ->addOrderBy($this->nameCategories)
                     ->getQuery()
                     ->getResult();              
-            
+
         }           
     }    
 
 
-    
+
 }

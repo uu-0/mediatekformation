@@ -38,7 +38,7 @@ class CategorieRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    
+
     /**
      * Retourne la liste des catégories des formations d'une playlist
      * @param type $idPlaylist

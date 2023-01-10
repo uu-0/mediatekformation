@@ -6,8 +6,6 @@ use App\Entity\Formation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-define("PUBLISHEDHAT", "f.publishedAt");
-
 /**
  * @extends ServiceEntityRepository<Formation>
  *
@@ -18,6 +16,12 @@ define("PUBLISHEDHAT", "f.publishedAt");
  */
 class FormationRepository extends ServiceEntityRepository
 {
+    /**
+     * 
+     * @var type String
+     */
+    private $publishedAt = 'f.publishedAt';
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Formation::class);
@@ -78,7 +82,7 @@ class FormationRepository extends ServiceEntityRepository
         if($table==""){
             return $this->createQueryBuilder('f')
                     ->where('f.'.$champ.' LIKE :valeur')
-                    ->orderBy(PUBLISHEDHAT, 'DESC')
+                    ->orderBy($this->publishedAt, 'DESC')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->getQuery()
                     ->getResult();            
@@ -86,13 +90,13 @@ class FormationRepository extends ServiceEntityRepository
             return $this->createQueryBuilder('f')
                     ->join('f.'.$table, 't')                    
                     ->where('t.'.$champ.' LIKE :valeur')
-                    ->orderBy(PUBLISHEDHAT, 'DESC')
+                    ->orderBy($this->publishedAt, 'DESC')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->getQuery()
                     ->getResult();                   
         }       
     }    
-    
+
     /**
      * Retourne les n formations les plus récentes
      * @param type $nb
@@ -100,12 +104,12 @@ class FormationRepository extends ServiceEntityRepository
      */
     public function findAllLasted($nb) : array {
         return $this->createQueryBuilder('f')
-                ->orderBy(PUBLISHEDHAT, 'DESC')
+                ->orderBy($this->publishedAt, 'DESC')
                 ->setMaxResults($nb)     
                 ->getQuery()
                 ->getResult();
     }    
-    
+
     /**
      * Retourne la liste des formations d'une playlist
      * @param type $idPlaylist
@@ -113,12 +117,12 @@ class FormationRepository extends ServiceEntityRepository
      */
     public function findAllForOnePlaylist($idPlaylist): array{
         return $this->createQueryBuilder('f')
-                ->join(PUBLISHEDHAT, 'p')
+                ->join('f.playlist', 'p')
                 ->where('p.id=:id')
                 ->setParameter('id', $idPlaylist)
-                ->orderBy(PUBLISHEDHAT, 'ASC')   
+                ->orderBy($this->publishedAt, 'ASC')   
                 ->getQuery()
                 ->getResult();        
     }
-    
+
 }
