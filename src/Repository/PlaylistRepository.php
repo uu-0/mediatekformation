@@ -101,9 +101,9 @@ class PlaylistRepository extends ServiceEntityRepository
      * @param type $table si $champ dans une autre table
      * @return Playlist[]
      */
-   public function findByContainValueEmpty($champ, $valeur): array{
+   public function findByContainValueEmpty($champ, $valeur, $table=""): array{
         if($valeur==""){
-            return $this->findByOrderBy('name', 'ASC');
+            return $this->findAllOrderByName('ASC');
         }    
          return $this->createQueryBuilder('p')
                 ->select($this->id)
