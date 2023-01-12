@@ -1,14 +1,16 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
+    
+{% endblock %}
+{% block stylesheets %}{% endblock %}
+{% block top %}
     <!-- titre -->
         <div class="text-left">
             <img alt="bannière"
                 src="{{ app.request.getBasePath()~'/banniere.jpg' }}" >
         </div>
-{% endblock %}
-{% block stylesheets %}{% endblock %}
-{% block top %}
+        &nbsp;        
 {% endblock %}
 {% block body %}{% endblock %}
 {% block footer %}

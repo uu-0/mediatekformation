@@ -19,11 +19,10 @@ class PlaylistRepository extends ServiceEntityRepository
     
     private $id = 'p.id id';
     private $name = 'p.name name';
-    private $nameCategory = 'c.name categoriename';
+    private $categoryName = 'c.name categoriename';
     private $formations = 'p.formations';
     private $categories = 'f.categories';
-    private $nameCategories = 'c.name';
-    private $nbFormations = 'count(f.title) nb';
+    private $categoriesName = 'c.name';
 
     /**
      * Constructeur
@@ -108,15 +107,15 @@ class PlaylistRepository extends ServiceEntityRepository
          return $this->createQueryBuilder('p')
                 ->select($this->id)
                 ->addSelect($this->name)
-                ->addSelect($this->nameCategory)
+                ->addSelect($this->categoryName)
                 ->leftjoin($this->formations, 'f')
                 ->leftjoin($this->categories, 'c')
                 ->where('p.'.$champ.' LIKE :valeur')
                 ->setParameter('valeur', '%'.$valeur.'%')
                 ->groupBy('p.id')
-                ->addGroupBy($this->nameCategories)
+                ->addGroupBy($this->categoriesName)
                 ->orderBy('p.name', 'ASC')
-                ->addOrderBy($this->nameCategories)
+                ->addOrderBy($this->categoriesName)
                 ->getQuery()
                 ->getResult();    
               
@@ -137,15 +136,15 @@ class PlaylistRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
                 ->select($this->id)
                 ->addSelect($this->name)
-                ->addSelect($this->nameCategory)
+                ->addSelect($this->categoryName)
                 ->leftjoin($this->formations, 'f')
                 ->leftjoin($this->categories, 'c')
                 ->where('c.'.$champ.' LIKE :valeur')
                 ->setParameter('valeur', '%'.$valeur.'%')
                 ->groupBy('p.id')
-                ->addGroupBy($this->nameCategories)
+                ->addGroupBy($this->categoriesName)
                 ->orderBy('p.name', 'ASC')
-                ->addOrderBy($this->nameCategories)
+                ->addOrderBy($this->categoriesName)
                 ->getQuery()
                 ->getResult();              
     } 

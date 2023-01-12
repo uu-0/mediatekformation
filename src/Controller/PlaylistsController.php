@@ -59,9 +59,11 @@ class PlaylistsController extends AbstractController {
      * @return Response
      */
     public function index(): Response{
+        $formations = $this->formationRepository->findAll();
         $playlists = $this->playlistRepository->findAllOrderByName('ASC');
         $categories = $this->categorieRepository->findAll();
         return $this->render($this->pagesPlaylist, [
+            'formations' => $formations,
             'playlists' => $playlists,
             'categories' => $categories            
         ]);

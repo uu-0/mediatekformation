@@ -57,6 +57,7 @@ class FormationsController extends AbstractController {
     }
 
     /**
+     * Tri les formations 
      * @Route("/formations/tri/{champ}/{ordre}/{table}", name="formations.sort")
      * @param type $champ
      * @param type $ordre
@@ -77,6 +78,7 @@ class FormationsController extends AbstractController {
     }     
 
     /**
+     * Recherche une formation 
      * @Route("/formations/recherche/{champ}/{table}", name="formations.findallcontain")
      * @param type $champ
      * @param Request $request
