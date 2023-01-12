@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Description of AdminFormationsController
  *
- * @author Jean
+ * @author user
  */
 class AdminFormationsController extends AbstractController {
 
@@ -35,6 +35,11 @@ class AdminFormationsController extends AbstractController {
      */
     private $categorieRepository;
 
+    /**
+     * Constructeur
+     * @param FormationRepository $formationRepository
+     * @param CategorieRepository $categorieRepository
+     */
     public function __construct(FormationRepository $formationRepository, CategorieRepository $categorieRepository) {
         $this->formationRepository = $formationRepository;
         $this->categorieRepository = $categorieRepository;
@@ -52,8 +57,27 @@ class AdminFormationsController extends AbstractController {
                     'categories' => $categories
         ]);
     }
-
+    
+    /**
+     * Suppression d'une formation
+     * @Route ("/admin/suppr/{id}", name="admin.formation.suppr")
+     * @param Formation $formation
+     * @return Response
+     */
+   public function suppr(Formation $formation): Response{
+       $this->formationrepository->remove($formation, true);
+       return $this->redirectToRoute('admin.formations');
+   }
    
-   
-
+   /**
+    * Modification d'une formation
+    * @Route ("/admin/edit/{id}", name="admin.formation.edit")
+    * @param Formation $formation
+    * @return Response
+    */
+   public function edit(Formation $formation):Response{
+       return $this->render("admin/admin.formation.edit.html.twig", [
+           'formation' => $formation
+       ]);
+   }
 }
