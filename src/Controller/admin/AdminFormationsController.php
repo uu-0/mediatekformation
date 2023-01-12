@@ -59,7 +59,7 @@ class AdminFormationsController extends AbstractController {
     }
     
     /**
-     * Suppression d'une formation
+     * Méthode de suppression d'une formation
      * @Route ("/admin/suppr/{id}", name="admin.formation.suppr")
      * @param Formation $formation
      * @return Response
@@ -70,14 +70,23 @@ class AdminFormationsController extends AbstractController {
    }
    
    /**
-    * Modification d'une formation
+    * Méthode de modification d'une formation
+    * Création du formulaire, récupèration de la requête (handleRequest), test validité formulaire
     * @Route ("/admin/edit/{id}", name="admin.formation.edit")
     * @param Formation $formation
     * @return Response
     */
-   public function edit(Formation $formation):Response{
+   public function edit(Formation $formation, Request $request):Response{
+       $formFormation = $this->createForm(FormationType::class, $formation);
+
+       $formFormation->handleRequest($request);
+       if($formFormation->isSubmitted() && $formFormation->isValid()){
+           $this->repository->add($formation, true);
+           return $this->redirectToRoute('admin.formations');
+       }
        return $this->render("admin/admin.formation.edit.html.twig", [
-           'formation' => $formation
+           'formation' => $formation,
+           'formformation' => $formFormation->createView()
        ]);
    }
 }
