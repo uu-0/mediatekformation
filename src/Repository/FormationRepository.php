@@ -103,23 +103,27 @@ class FormationRepository extends ServiceEntityRepository
                 ->getResult();                   
     }                    
     
-    /**
-     * Enregistrements dont un champ contient une valeur
-     * ou tous les enregistrements si la valeur est vide
+     /**
+     * Retourne la valeur renseignée en fonction du champ
+     * Ou tous les enregistrements si la valeur est null
+     * Avec $champ présent dans une autre entité
      * @param type $champ
      * @param type $valeur
+     * @param type $table  la table correspondant au $champ recherché
      * @return Formation[]
      */
-    public function findByContainValueTableEmpty($champ, $valeur): array{
-        if($valeur==""){
+    public function findByContainValueTableEmpty($champ, $valeur, $table): array {
+        if ($valeur == "") {
+            return $this->findAll();
+        } else {
             return $this->createQueryBuilder('f')
-                    ->where('f.'.$champ.' LIKE :valeur')
-                    ->orderBy($this->publishedAt, 'DESC')
-                    ->setParameter('valeur', '%'.$valeur.'%')
-                    ->getQuery()
-                    ->getResult();                  
-            }
-    
+                            ->where('f.'.$champ.' LIKE :valeur')
+                            ->orderBy($this->publishedAt, 'DESC')
+                            ->addOrderBy('f.id', 'DESC')
+                            ->setParameter('valeur', '%' . $valeur . '%')
+                            ->getQuery()
+                            ->getResult();
+        }
     }
 
     /**
