@@ -22,7 +22,13 @@ class AdminFormationsController extends AbstractController {
      * 
      * @var type String
      */
-    private $pagesFormationsAdmin = "admin/admin.formations.html.twig";
+    private $pageFormationAdmin = "admin/admin.formations.html.twig";
+    
+     /**
+     *
+     * @var type String
+     */
+    private $redirectToAF = "admin.formations";
     
     /**
      * @var FormationRepository
@@ -52,7 +58,7 @@ class AdminFormationsController extends AbstractController {
     public function index(): Response {
         $formations = $this->formationRepository->findAll();
         $categories = $this->categorieRepository->findAll();
-        return $this->render($this->pagesFormationsAdmin, [
+        return $this->render($this->pageFormationAdmin, [
                     'formations' => $formations,
                     'categories' => $categories
         ]);
@@ -113,7 +119,7 @@ class AdminFormationsController extends AbstractController {
    
    /**
      * Tri les formations 
-     * @Route("/formations/tri/{champ}/{ordre}/{table}", name="formations.sort")
+     * @Route("/formations/tri/{champ}/{ordre}/{table}", name="admin.formations.sort")
      * @param type $champ
      * @param type $ordre
      * @param type $table
@@ -126,7 +132,7 @@ class AdminFormationsController extends AbstractController {
             $formations = $this->formationRepository->findByOrderBy($champ, $ordre, $table="");
         }
         $categories = $this->categorieRepository->findAll();
-        return $this->render($this->pagesFormations, [
+        return $this->render($this->pageFormationAdmin, [
             'formations' => $formations,
             'categories' => $categories
         ]);
@@ -148,7 +154,7 @@ class AdminFormationsController extends AbstractController {
                 $formations = $this->formationRepository->findByContainValue($champ, $valeur);
             }
             $categories = $this->categorieRepository->findAll();
-            return $this->render($this->pagesFormationsAdmin, [
+            return $this->render($this->pageFormationAdmin, [
                         'formations' => $formations,
                         'categories' => $categories,
                         'valeur' => $valeur,
@@ -169,7 +175,7 @@ class AdminFormationsController extends AbstractController {
         $valeur = $request->get("recherche");
         $formations = $this->formationRepository->findByContainValueTable($champ, $valeur, $table);
         $categories = $this->categorieRepository->findAll();
-        return $this->render($this->pagesFormationsAdmin, [
+        return $this->render($this->pageFormationAdmin, [
                     'formations' => $formations,
                     'categories' => $categories,
                     'valeur' => $valeur,
