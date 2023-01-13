@@ -16,9 +16,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FormationRepository extends ServiceEntityRepository
 {
-    
+    /**
+     * @var type String date publication formation
+     */
     private $publishedAt = 'f.publishedAt';
 
+    /**
+     * Constructeur de classe
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Formation::class);
@@ -55,7 +61,7 @@ class FormationRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retourne toutes les formations triées sur un champ
+     * Méthode de tri des formations sur un champ, avec table
      * @param type $champ
      * @param type $ordre
      * @param type $table si $champ dans une autre table
@@ -70,6 +76,7 @@ class FormationRepository extends ServiceEntityRepository
     }
     
     /**
+     * Méthode de tri des formations sur un champ, sans table
      * Retourne toutes les formations triées sur un champ
      * @param type $champ
      * @param type $ordre
@@ -83,7 +90,7 @@ class FormationRepository extends ServiceEntityRepository
     }
 
     /**
-     * Enregistrements dont un champ contient une valeur
+     * Méthode de tri d'une playlist sur un champ entré
      * ou tous les enregistrements si la valeur est vide
      * @param type $champ
      * @param type $valeur

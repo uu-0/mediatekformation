@@ -49,7 +49,8 @@ class FormationType extends AbstractType {
                 ])
                 ->add('publishedAt', DateType::class, [
                     'widget' => 'single_text',
-                    'data' => isset($options['data']) && $options['data']->getPublishedAt() != null ?
+                    'data' => isset($options['data']) && 
+                            $options['data']->getPublishedAt() != null ?
                             $options['data']->getPublishedAt() : new DateTime('now'),
                     'label' => 'Date',
                     'required' => true
