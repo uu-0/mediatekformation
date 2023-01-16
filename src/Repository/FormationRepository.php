@@ -97,7 +97,7 @@ class FormationRepository extends ServiceEntityRepository
      * @param type $table
      * @return Formation[]
      */
-    public function findByContainValue($champ, $valeur, $table): array{
+     public function findByContainValue($champ, $valeur, $table): array{
         if($valeur==""){
             return $this->findAll();        
         }
@@ -108,7 +108,7 @@ class FormationRepository extends ServiceEntityRepository
                 ->setParameter('valeur', '%'.$valeur.'%')
                 ->getQuery()
                 ->getResult();                   
-    }                    
+    }                       
     
      /**
      * Retourne la valeur renseignée en fonction du champ

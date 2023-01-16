@@ -71,8 +71,8 @@ class AdminFormationsController extends AbstractController {
      * @return Response
      */
    public function suppr(Formation $formation): Response{
-       $this->formationrepository->remove($formation, true);
-       return $this->redirectToRoute('admin.formations');
+       $this->formationRepository->remove($formation, true);
+       return $this->redirectToRoute($this->redirectToAF);
    }
    
    /**
@@ -88,9 +88,9 @@ class AdminFormationsController extends AbstractController {
        $formFormation->handleRequest($request);
        if($formFormation->isSubmitted() && $formFormation->isValid()){
            $this->repository->add($formation, true);
-           return $this->redirectToRoute('admin.formations');
+           return $this->redirectToRoute($this->redirectToAF);
        }
-       return $this->render("admin/admin.formation.edit.html.twig", [
+       return $this->render($this->pageFormationAdmin, [
            'formation' => $formation,
            'formformation' => $formFormation->createView()
        ]);
@@ -109,17 +109,16 @@ class AdminFormationsController extends AbstractController {
         $formFormation->handleRequest($request);
         if($formFormation->isSubmitted()&& $formFormation->isValid()){
             $this->formationRepository->add($formation, true);
-            return $this->redirectToRoute('admin.formations');
+            return $this->redirectToRoute($this->redirectToAF);
         }
-        return $this->render("admin/admin.formation.ajout.html.twig",[
+        return $this->render($this->pageFormationAdmin,[
             'formation' => $formation,
             'formformation' => $formFormation->createView()
         ]);
    }
    
-   /**
-     * Tri les formations 
-     * @Route("/formations/tri/{champ}/{ordre}/{table}", name="admin.formations.sort")
+    /**
+     * @Route("/admin/tri/{champ}/{ordre}/{table}", name="admin.formations.sort")
      * @param type $champ
      * @param type $ordre
      * @param type $table
@@ -129,7 +128,7 @@ class AdminFormationsController extends AbstractController {
         if($table!=""){
            $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
         }else{
-            $formations = $this->formationRepository->findByOrderBy($champ, $ordre, $table="");
+            $formations = $this->formationRepository->findByOrderBy($champ, $ordre);
         }
         $categories = $this->categorieRepository->findAll();
         return $this->render($this->pageFormationAdmin, [
@@ -151,7 +150,7 @@ class AdminFormationsController extends AbstractController {
             if ($table != "") {
                 $formations = $this->formationRepository->findByContainValueTable($champ, $valeur, $table);
             } else {
-                $formations = $this->formationRepository->findByContainValue($champ, $valeur);
+                $formations = $this->formationRepository->findByContainValue($champ, $valeur, $table);
             }
             $categories = $this->categorieRepository->findAll();
             return $this->render($this->pageFormationAdmin, [
@@ -159,7 +158,7 @@ class AdminFormationsController extends AbstractController {
                         'categories' => $categories,
                         'valeur' => $valeur,
                         'table' => $table
-            ]);
+            ]); 
         }
         return $this->redirectToRoute($this->redirectToAF);
     }
