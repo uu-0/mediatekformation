@@ -118,6 +118,7 @@ class AdminFormationsController extends AbstractController {
    }
    
     /**
+     * Méthode de tri des formations
      * @Route("/admin/tri/{champ}/{ordre}/{table}", name="admin.formations.sort")
      * @param type $champ
      * @param type $ordre
@@ -138,6 +139,7 @@ class AdminFormationsController extends AbstractController {
     }   
     
      /**
+     * Méthode de recherche d'une formation en fonction d'un champs
      * @Route("/admin/formations/recherche/{champ}/{table}", name="admin.formations.findallcontain")
      * @param type $champ
      * @param Request $request
@@ -164,6 +166,7 @@ class AdminFormationsController extends AbstractController {
     }
     
     /**
+     * Méthode de recherche d'une formation en fonction d'un champs
      * @Route("/admin/formations/rechercher/{champ}/{table}", name="admin.formations.findallcontaincategories")
      * @param type $champ
      * @param Request $request
