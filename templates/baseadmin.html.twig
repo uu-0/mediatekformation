@@ -5,27 +5,33 @@
 {% endblock %}
 {% block stylesheets %}{% endblock %}
 {% block top %}
-    <!-- titre -->
-        <div class="text-left">
-            <img alt="bannière"
-                src="{{ app.request.getBasePath()~'/banniere.jpg' }}" >
+    <div class="container">
+        &nbsp;
+        <div class="text-end">
+            <a href="{{ path('logout') }}" class="btn btn-info btn-sm active">Se déconnecter</a>
         </div>
-        <!-- menu -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li>
-                        <a class="nav-link" href="{{ path('accueil') }}">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('admin.formations') }}">Formations</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('admin.playlists') }}">Playlists</a>
-                    </li>                    
-                </ul>
+        <!-- titre -->
+            <div class="text-left">
+                <img alt="bannière"
+                    src="{{ app.request.getBasePath()~'/banniere.jpg' }}" >
             </div>
-        </nav>        
+            <!-- menu -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li>
+                            <a class="nav-link" href="{{ path('accueil') }}">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('admin.formations') }}">Formations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('admin.playlists') }}">Playlists</a>
+                        </li>                    
+                    </ul>
+                </div>
+            </nav> 
+    </div>
         &nbsp;        
 {% endblock %}
 {% block body %}{% endblock %}
