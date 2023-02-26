@@ -1,0 +1,3 @@
+# mediatekformation
+
+test
