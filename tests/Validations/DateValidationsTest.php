@@ -28,7 +28,7 @@ class DateValidationsTest extends KernelTestCase{
      */
     public function testValidationDateFormation(){
         $formation = $this->getFormation()->setPublishedAt(new DateTime("2033/03/16"));
-        $this->assertErrors($formation, 1); // 1 car "2033/03/16" provequera une erreur (0 si pas d'erreur)
+        $this->assertErrors($formation, 1, "2033/03/16 provoquera une erreur car la date est postérieure à aujourd'hui." ); // 1 car "2033/03/16" provequera une erreur (0 si pas d'erreur)
     }
     
     /**
@@ -37,10 +37,10 @@ class DateValidationsTest extends KernelTestCase{
      * @param int $nbErreursAttendues (nombre d'erreurs attendues)
      * @param string $message
      */
-    public function assertErrors(Formation $formation, int $nbErreursAttendues){
+    public function assertErrors(Formation $formation, int $nbErreursAttendues, string $message=""){
         self::bootKernel();
         $validator = self::getContainer()->get(ValidatorInterface::class);
         $error = $validator->validate($formation);
-        $this->assertCount($nbErreursAttendues,$error);
+        $this->assertCount($nbErreursAttendues,$error, $message);
     }
 }
