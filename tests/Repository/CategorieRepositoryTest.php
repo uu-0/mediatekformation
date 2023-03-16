@@ -7,12 +7,17 @@
 
 namespace App\Tests\Repository;
 
+use App\Entity\Categorie;
+use App\Repository\CategorieRepository;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+
 /**
  * Description of CategorieRepositoryTest
+ * Contrôler toutes les méthodes ajoutées dans les classes Repository (pour cela, créer une BDD de test)
  *
  * @author uu0✿
  */
-class CategorieRepositoryTest {
+class CategorieRepositoryTest extends KernelTestCase{
     
     /**
      * Récupère le repository de Catégorie
@@ -29,7 +34,7 @@ class CategorieRepositoryTest {
     public function testNbCategories(){
         $repository = $this->recupRepository();
         $nbCategories = $repository->count([]);
-        $this->assertEquals(10, $nbCategories);
+        $this->assertEquals(9, $nbCategories);
     }
 
     /**

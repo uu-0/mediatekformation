@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * Description of FormationRepositoryTest
+ * Contrôler toutes les méthodes ajoutées dans les classes Repository (pour cela, créer une BDD de test)
  *
  * @author uu0✿
  */
