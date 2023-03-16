@@ -24,6 +24,8 @@ class AdminFormationsController extends AbstractController {
      */
     private $pageFormationAdmin = "admin/admin.formations.html.twig";
     
+    private $pageFormationAdminAjt = "admin/admin.formation.ajout.html.twig";
+    
      /**
      *
      * @var type String
@@ -103,19 +105,19 @@ class AdminFormationsController extends AbstractController {
     * @return Response
     */
    public function ajout(Request $request): Response{
-       $formation = new Formation();
-       $formFormation = $this->createForm(FormationType::class, $formation);
+       $formations = new Formation();
+       $formFormation = $this->createForm(FormationType::class, $formations);
        
         $formFormation->handleRequest($request);
         if($formFormation->isSubmitted()&& $formFormation->isValid()){
-            $this->formationRepository->add($formation, true);
+            $this->formationRepository->add($formations, true);
             return $this->redirectToRoute($this->redirectToAF);
         }
-        return $this->render($this->pageFormationAdmin,[
-            'formation' => $formation,
-            'formformation' => $formFormation->createView()
+        return $this->render($this->pageFormationAdminAjt, [
+            'formations' => $formations,
+            'formformation' => $formFormation->createView()                
         ]);
-   }
+    }
    
     /**
      * Méthode de tri des formations

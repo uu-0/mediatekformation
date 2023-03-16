@@ -82,15 +82,15 @@ class AdminCategoriesController extends AbstractController {
      * @return Response
      */
     public function ajout(Request $request): Response{
-        $categorie = new Categorie();
-        $formCategorie = $this->createForm(CategorieType::class, $categorie);
+        $categories = new Categorie();
+        $formCategorie = $this->createForm(CategorieType::class, $categories);
         $formCategorie->handleRequest($request);
         if($formCategorie->isSubmitted() && $formCategorie->isValid()){
-            $this->categorieRepository->add($categorie, true);
+            $this->categorieRepository->add($categories, true);
             return $this->redirectToRoute('admin.categories');
         }
         return $this->render("admin/admin.categorie.ajout.html.twig", [
-            'categorie' => $categorie,
+            'categories' => $categories,
             'formcategorie' => $formCategorie->createView()
         ]);
     }
