@@ -34,7 +34,7 @@ class FormationsController extends AbstractController {
     private $categorieRepository;
     
     /**
-     * Constructeur
+     * Constructeur de FormationController
      * @param FormationRepository $formationRepository
      * @param CategorieRepository $categorieRepository
      */
@@ -102,6 +102,7 @@ class FormationsController extends AbstractController {
     }  
 
     /**
+     * Affiche le détail d'une formation
      * @Route("/formations/formation/{id}", name="formations.showone")
      * @param type $id
      * @return Response

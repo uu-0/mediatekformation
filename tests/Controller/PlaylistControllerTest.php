@@ -11,13 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * Test Fonctionnel
  * Description of PlaylistControllerTest
  *
  * @author uu0✿
  */
 class PlaylistControllerTest extends WebTestCase{
     /**
-     * Test acces page Playlist
+     * Test qui contrôle l'accès de la page des playlists
      */
     public function testAccesPage(){
        $client = static::createClient();
@@ -25,6 +26,9 @@ class PlaylistControllerTest extends WebTestCase{
        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
    }
    
+   /**
+    * Test qui contrôle le tri croissant des playlists
+    */
    public function testTriPlaylists()
     {
         $client = static::createClient();
@@ -34,6 +38,9 @@ class PlaylistControllerTest extends WebTestCase{
         $this->assertSelectorTextContains('h5', 'Android - Test playlist');
     }
     
+    /**
+     * Test qui contrôle le tri croissant des playlists par leur nombre de formations
+     */
     public function testTriNbFormations()
     {
         $client = static::createClient();
@@ -42,7 +49,10 @@ class PlaylistControllerTest extends WebTestCase{
         $this->assertCount(4, $crawler->filter('th'));
         $this->assertSelectorTextContains('h5', 'Cours Informatique embarquée');
     }
-
+    
+    /**
+     * Test qui contrôle le tri par filtre des playlists
+     */
     public function testFiltrePlaylists()
     {
         $client = static::createClient();
@@ -56,6 +66,9 @@ class PlaylistControllerTest extends WebTestCase{
          $this->assertSelectorTextContains('h5', 'sujet');
     }
 
+    /**
+     * Test qui contrôle le tri par filtre des catégories
+     */
     public function testFiltreCategories()
     {
         $client = static::createClient();
@@ -69,6 +82,9 @@ class PlaylistControllerTest extends WebTestCase{
          $this->assertSelectorTextContains('h5', 'Android - Test playlist');
     }
 
+    /**
+     * Test qui contrôle l'accès au détail d'une playlist
+     */
     public function testLinkPlaylists() {
         $client = static::createClient();
         $client->request('GET','/playlists');

@@ -23,7 +23,7 @@ class PlaylistsController extends AbstractController {
     private $formationRepository;
 
     /**
-     * Constructeur de la classe PlaylistController
+     * Constructeur de PlaylistController
      * @param PlaylistRepository $playlistRepository
      * @param CategorieRepository $categorieRepository
      * @param FormationRepository $formationRepository
@@ -49,6 +49,7 @@ class PlaylistsController extends AbstractController {
     }
 
     /**
+     * Méthode de tri des playlists
      * @Route("/playlists/tri/{champ}/{ordre}", name="playlists.sort")
      * @param type $champ
      * @param type $ordre
@@ -71,6 +72,7 @@ class PlaylistsController extends AbstractController {
     }
 
     /**
+     * Recherche d'une playlist sans table
      * @Route("/playlists/recherche/{champ}", name="playlists.findallcontain")
      * @param type $champ
      * @param Request $request
@@ -90,6 +92,7 @@ class PlaylistsController extends AbstractController {
     }
 
     /**
+     * Recherche d'une playlist avec table
      * @Route("/playlists/recherche/{champ}/{table}", name="playlists.findallcontaincategories")
      * @param type $champ
      * @param Request $request
@@ -109,6 +112,7 @@ class PlaylistsController extends AbstractController {
     }
 
     /**
+     * Affiche le détail d'une playlist
      * @Route("/playlists/playlist/{id}", name="playlists.showone")
      * @param type $id
      * @return Response
@@ -125,6 +129,7 @@ class PlaylistsController extends AbstractController {
     }
 
     /**
+     * Tri les playlists sur le nombre de formations qu'elles possèdent
      * @Route("/playlists/tri/{ordre}", name="playlists.sortonnbformation")
      * @param type $ordre
      * @return Response

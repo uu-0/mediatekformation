@@ -16,6 +16,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CategorieType extends AbstractType
 {
+    /**
+     * Initialisation du formulaire
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
      public function buildForm(FormBuilderInterface $builder, array $options) {
 
         $builder

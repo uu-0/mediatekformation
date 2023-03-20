@@ -12,12 +12,14 @@ use App\Repository\PlaylistRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
+ * Test d'Intégration
  * Description of PlaylistRepositoryTest
  * Contrôler toutes les méthodes ajoutées dans les classes Repository (pour cela, créer une BDD de test)
  *
  * @author uu0✿
  */
 class PlaylistRepositoryTest extends KernelTestCase{
+    
      /**
      * Récupère le repository de Playlist
      */
@@ -47,6 +49,9 @@ class PlaylistRepositoryTest extends KernelTestCase{
         return $playlist;
     }
     
+    /**
+     * Test qui contrôle l'ajout d'une playlist
+     */
     public function testAddPlaylist(){
         $repository = $this->recupRepository();
         $playlist = $this->newPlaylist();
@@ -54,7 +59,10 @@ class PlaylistRepositoryTest extends KernelTestCase{
         $repository->add($playlist, true);
         $this->assertEquals($nbPlaylists + 1, $repository->count([]), "erreur lors de l'ajout d'une playlist");
     }
-
+    
+    /**
+     * Test qui contrôle la suppression d'une playlist
+     */
     public function testRemoveFormation(){
         $repository = $this->recupRepository();
         $playlist = $this->newPlaylist();
@@ -64,6 +72,9 @@ class PlaylistRepositoryTest extends KernelTestCase{
         $this->assertEquals($nbPlaylists - 1, $repository->count([]), "erreur lors de la suppression d'une playlist");
     }
     
+    /**
+     * Test qui contrôle le tri des playlists par leurs noms (ordre croissant)
+     */
      public function testFindAllOrderByName(){
         $repository = $this->recupRepository();
         $playlist = $this->newPlaylist();
@@ -74,6 +85,9 @@ class PlaylistRepositoryTest extends KernelTestCase{
         $this->assertEquals("Bases de la programmation (C#)", $playlists[0]->getName());
     }
     
+    /**
+     * Test qui contrôle la recherche d'une playlist par sa formation (ordre croissant)
+     */
     public function testFindAllOrderByNbFormation(){
         $repository = $this->recupRepository();
         $playlist = $this->newPlaylist();
@@ -83,7 +97,10 @@ class PlaylistRepositoryTest extends KernelTestCase{
         $this->assertEquals(30, $nbPlaylists);
         $this->assertEquals("PlaylistTest", $playlists[0]->getName());
     }
-
+    
+    /**
+     * Test qui contrôle la recherche d'une playlist par son nom
+     */
     public function testFindByContainValue(){
         $repository = $this->recupRepository();
         $playlist = $this->newPlaylist();
@@ -93,7 +110,9 @@ class PlaylistRepositoryTest extends KernelTestCase{
         $this->assertEquals(8, $nbPlaylists);
         $this->assertEquals("Exercices objet (sujets EDC BTS SIO)", $playlists[0]->getName());
     }
-
+    /**
+     * Test qui contrôle la recherche d'une playlist par son nom et sa catégorie
+     */
     public function testFindByContainValueTable(){
         $repository = $this->recupRepository();
         $playlist = $this->newPlaylist();

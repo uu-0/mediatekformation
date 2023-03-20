@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Description of AdminCategoriesController
  *
- * @author user
+ * @author uu0✿
  */
 class AdminCategoriesController extends AbstractController {
 

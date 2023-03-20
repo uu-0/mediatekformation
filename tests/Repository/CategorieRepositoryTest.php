@@ -12,6 +12,7 @@ use App\Repository\CategorieRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
+ * Test d'Intégration
  * Description of CategorieRepositoryTest
  * Contrôler toutes les méthodes ajoutées dans les classes Repository (pour cela, créer une BDD de test)
  *
@@ -46,7 +47,10 @@ class CategorieRepositoryTest extends KernelTestCase{
                 ->setName("CatégorieTest");
         return $categorie;
     }
-
+    
+    /**
+     * Test qui contrôle l'ajout d'une catégorie
+     */
      public function testAddCategorie(){
         $repository = $this->recupRepository();
         $categorie = $this->newCategorie();
@@ -55,6 +59,9 @@ class CategorieRepositoryTest extends KernelTestCase{
         $this->assertEquals($nbCategories + 1, $repository->count([]), "erreur lors de l'ajout d'une catégorie");
     }
 
+    /**
+     * Test qui contrôle la suppression d'une catégorie
+     */
     public function testRemoveCategorie(){
         $repository = $this->recupRepository();
         $categorie = $this->newCategorie();
@@ -63,7 +70,10 @@ class CategorieRepositoryTest extends KernelTestCase{
         $repository->remove($categorie, true);
         $this->assertEquals($nbCategories - 1, $repository->count([]), "erreur lors de la suppression d'une catégorie");
     }
-
+    
+    /**
+     * Test qui contrôle la recherche d'une catégorie par sa playlist
+     */
      public function testFindAllForOnePlaylist(){
         $repository = $this->recupRepository();
         $categorie = $this->newCategorie();

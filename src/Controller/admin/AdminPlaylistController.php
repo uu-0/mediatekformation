@@ -16,42 +16,36 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Description of AdminPlaylistController
  *
- * @author user
+ * @author uu0✿
  */
 class AdminPlaylistController extends AbstractController{
     
     /**
-     * 
      * @var type String
      */
     private $pagePlaylistsAdmin = "admin/admin.playlists.html.twig";
     
     /**
-     * 
      * @var type String
      */
     private $pagePlaylistsAdminAjout = "admin/admin.playlist.ajout.html.twig";
     
     /**
-     * 
      * @var type String
      */
     private $pagePlaylistsAdminEdit = "admin/admin.playlist.edit.html.twig";
     
     /**
-     *
      * @var type String
      */
     private $redirectToAP = 'admin.playlists';
     
     /**
-     *
      * @var type PlaylistRepository
      */
     private $playlistRepository;
     
      /**
-     * 
      * @var type CategorieRepository
      */
     private $categorieRepository;    

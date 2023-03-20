@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * Test Fonctionnel
  * Description of FormationControllerTest
  *
  * @author uu0✿
@@ -20,7 +21,7 @@ class FormationControllerTest extends WebTestCase{
     private const FORMATIONSPATH = '/formations';
     
     /**
-     * Teste l'acces de la page des formations
+     * Test qui contrôle l'accès de la page des formations
     */
     public function testAccesPage() {
         $client = static::createClient();
@@ -29,6 +30,9 @@ class FormationControllerTest extends WebTestCase{
 
     }
     
+    /**
+     * Test qui vérifie le tri croissant des playlists
+     */
     public function testPlaylistsTriAsc(){
         $client = static::createClient();
         $crawler = $client->request('GET', '/formations/tri/name/ASC/playlist');
@@ -37,6 +41,9 @@ class FormationControllerTest extends WebTestCase{
         $this->assertSelectorTextContains('h5', 'Bases de la programmation n°74 - POO : collections');
     }
     
+    /**
+     * Test qui vérifie le tri croissant des formations
+     */
     public function testFormationsTriAsc(){
         $client = static::createClient();
         $crawler = $client->request('GET', '/formations/tri/title/ASC');
@@ -44,7 +51,10 @@ class FormationControllerTest extends WebTestCase{
         $this->assertCount(5, $crawler->filter('th'));
         $this->assertSelectorTextContains('h5', 'Android Studio (complément n°1) : Navigation Drawer et Fragment');
     }
-
+    
+    /**
+     * Test qui vérifie le tri par date
+     */
      public function testTriDate()
     {
         $client = static::createClient();
@@ -53,7 +63,10 @@ class FormationControllerTest extends WebTestCase{
         $this->assertCount(5, $crawler->filter('th'));
         $this->assertSelectorTextContains('h5', 'Cours UML (1 à 7 / 33) : introduction');
     }
-
+    
+    /**
+     * Test qui contrôle le tri par filtre des formations
+     */
      public function testFiltreFormations()
     {
         $client = static::createClient();
@@ -66,7 +79,10 @@ class FormationControllerTest extends WebTestCase{
         // vérifie si la formation correspond à la recherche
          $this->assertSelectorTextContains('h5', 'UML');
     }
-
+    
+    /**
+     * Test qui contrôle le tri par filtre des playlists
+     */
      public function testFiltrePlaylists()
     {
         $client = static::createClient();
@@ -79,7 +95,10 @@ class FormationControllerTest extends WebTestCase{
         // vérifie si la formation correspond à la recherche
          $this->assertSelectorTextContains('h5', 'Eclipse');
     }
-
+    
+    /**
+     * Test qui contrôle le tri par filtre des catégories
+     */
     public function testFiltreCategories()
     {
         $client = static::createClient();
@@ -92,7 +111,10 @@ class FormationControllerTest extends WebTestCase{
         // vérifie si la formation correspond à la recherche
          $this->assertSelectorTextContains('h5', 'Java REACT');
     }
-
+    
+    /**
+     * Test qui contrôle l'accès au détail d'une formation
+     */
     public function testLinkFormations() {
         $client = static::createClient();
         $client->request('GET','/formations');

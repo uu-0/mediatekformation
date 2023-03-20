@@ -13,6 +13,7 @@ use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
+ * Test d'Intégration
  * Description of FormationRepositoryTest
  * Contrôler toutes les méthodes ajoutées dans les classes Repository (pour cela, créer une BDD de test)
  *
@@ -49,6 +50,9 @@ class FormationRepositoryTest extends KernelTestCase {
         return $formation;
     }
     
+    /**
+     * Test qui contrôle l'ajout d'une formation
+     */
     public function testAddFormation(){
         $repository = $this->recupRepository();
         $formation = $this->newFormation();
@@ -57,6 +61,9 @@ class FormationRepositoryTest extends KernelTestCase {
         $this->assertEquals($nbFormations + 1, $repository->count([]), "erreur lors de l'ajout d'une formation");
     }
     
+    /**
+     * Test qui contr$ole la suppression d'une formation
+     */
     public function testRemoveFormation(){
         $repository = $this->recupRepository();
         $formation = $this->newFormation();
@@ -66,6 +73,9 @@ class FormationRepositoryTest extends KernelTestCase {
         $this->assertEquals($nbFormations - 1, $repository->count([]), "erreur lors de la suppression d'une formation");
     }
     
+    /**
+     * Test qui contrôle la recherche d'une formation par sa ordre croissant
+     */
     public function testFindAllOrderBy(){
        $repository = $this->recupRepository();
         $formation = $this->newFormation();
@@ -77,6 +87,9 @@ class FormationRepositoryTest extends KernelTestCase {
      
     }
     
+    /**
+     * Test qui contrôle la recherche d'une formation par ordre croissant
+     */
     public function testFindByOrderBy(){
         $repository = $this->recupRepository();
         $formation = $this->newFormation();
@@ -87,6 +100,9 @@ class FormationRepositoryTest extends KernelTestCase {
         $this->assertEquals("Android Studio (complément n°1) : Navigation Drawer et Fragment", $formations[0]->getTitle());
         }
     
+     /**
+     * Test qui contrôle la recherche d'une formation par un champ
+     */
     public function testFindByContainValue(){
         $repository = $this->recupRepository();
         $formation = $this->newFormation();
@@ -97,7 +113,10 @@ class FormationRepositoryTest extends KernelTestCase {
         $this->assertEquals("C# : ListBox en couleur", $formations[0]->getTitle());
         
     }
-
+    
+    /**
+     * Test qui contrôle la recherche d'une formation par un champ, sans table
+     */
     public function testFindByContainValueTableEmpty(){
         $repository = $this->recupRepository();
         $formation = $this->newFormation();
@@ -106,10 +125,11 @@ class FormationRepositoryTest extends KernelTestCase {
         $nbFormations = count($formations);
         $this->assertEquals(11, $nbFormations);
         $this->assertEquals("Android Studio (complément n°13) : Permissions", $formations[0]->getTitle());
-        }
+    }
     
-     
-    
+    /**
+     * Test qui contrôle la recherche d'une formation par sa playlist
+     */
     public function testFindAllForOnePlaylist(){
         $repository = $this->recupRepository();
         $formation = $this->newFormation();

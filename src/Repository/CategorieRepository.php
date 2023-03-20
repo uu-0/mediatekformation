@@ -15,12 +15,21 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Categorie[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class CategorieRepository extends ServiceEntityRepository
-{
+{   
+    /**
+     * Constucteur
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Categorie::class);
     }
-
+    
+    /**
+     * Méthode d'ajout d'une Catégorie
+     * @param Categorie $entity
+     * @param bool $flush
+     * @return void
+     */
     public function add(Categorie $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -29,7 +38,13 @@ class CategorieRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+    
+    /**
+     * Méthode de suppression d'une Catégorie
+     * @param Categorie $entity
+     * @param bool $flush
+     * @return void
+     */
     public function remove(Categorie $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);

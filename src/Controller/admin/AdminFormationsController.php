@@ -14,20 +14,21 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Description of AdminFormationsController
  *
- * @author user
+ * @author uu0✿
  */
 class AdminFormationsController extends AbstractController {
 
     /**
-     * 
      * @var type String
      */
     private $pageFormationAdmin = "admin/admin.formations.html.twig";
     
+    /**
+     * @var type
+     */
     private $pageFormationAdminAjt = "admin/admin.formation.ajout.html.twig";
     
      /**
-     *
      * @var type String
      */
     private $redirectToAF = "admin.formations";
@@ -44,7 +45,7 @@ class AdminFormationsController extends AbstractController {
     private $categorieRepository;
 
     /**
-     * Constructeur de classe
+     * Constructeur
      * @param FormationRepository $formationRepository
      * @param CategorieRepository $categorieRepository
      */

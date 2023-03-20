@@ -28,7 +28,7 @@ class Categorie
      * @ORM\ManyToMany(targetEntity=Formation::class, mappedBy="categories")
      */
     private $formations;
-
+   
     public function __construct()
     {
         $this->formations = new ArrayCollection();

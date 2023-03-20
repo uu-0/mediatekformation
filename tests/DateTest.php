@@ -7,6 +7,7 @@ use DateTime;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * Test Unitaire
  * Description of DateTest
  *
  * @author uu0✿
@@ -14,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 class DateTest extends TestCase{
     
     /**
-     * Tests unitaires sur la méthode getPublishedAtString() de la classe Formation 
+     * Test sur la méthode getPublishedAtString() de la classe Formation 
      * pour voir si elle retourne la bonne date au bon format
      */
    public function testGetPublishedAtString(){

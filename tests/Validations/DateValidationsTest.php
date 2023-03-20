@@ -8,9 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
+ * Test d'Intégration
  * Contrôle si la date de publication n'est pas postérieure à ajd lors de l'ajout/édition d'une formation
  *
- * @author samsam
+ * @author uu0✿
  */
 class DateValidationsTest extends KernelTestCase{
 
