@@ -3,95 +3,99 @@
 namespace App\Controller\admin;
 
 use App\Entity\Categorie;
-use App\Form\CategorieType;
 use App\Repository\CategorieRepository;
+use App\Repository\FormationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Description of AdminCategoriesController
+ * Gère les routes de la page d'administration des catégories
  *
  * @author uu0✿
  */
 class AdminCategoriesController extends AbstractController {
-
+    
     /**
-     * @var type String
+     * 
+     * @var FormationRepository
      */
-    private $pageCategoriesAdmin = "admin/admin.categories.html.twig";
-
-     /**
-     * @var type String
-     */
-    private $redirectToAC = "admin.categories";
-
+    private $formationRepository;
+    
     /**
-     * @var type CategorieRepository
+     * 
+     * @var CategorieRepository
      */
     private $categorieRepository;
-
-
+    
     /**
-     * Constructeur
+     * Création du constructeur
+     * @param FormationRepository $formationRepository
      * @param CategorieRepository $categorieRepository
      */
-    public function __construct(CategorieRepository $categorieRepository){
-        $this->categorieRepository = $categorieRepository;
+    function __construct(FormationRepository $formationRepository, CategorieRepository $categorieRepository) {
+        $this->formationRepository = $formationRepository;
+        $this->categorieRepository= $categorieRepository;
     }
-
+    
     /**
+     * Création de la route vers la page d'administration des catégories
      * @Route("/admin/categories", name="admin.categories")
      * @return Response
      */
     public function index(): Response{
+        $formations = $this->formationRepository->findAll();
         $categories = $this->categorieRepository->findAll();
-        return $this->render($this->pageCategoriesAdmin, [
-            'categories' => $categories
+        return $this->render("/admin/admin.categories.html.twig", [
+            'formations' => $formations,
+            'categories' => $categories,
         ]);
     }
-
+    
     /**
-     * Méthode de tri des catégories
-     * @Route("/admin/categories/tri/{champ}/{ordre}", name="admin.categories.sort")
-     * @return Response
-     */
-    public function sort($champ, $ordre): Response{
-        $categories = $this->categorieRepository->findAll($champ, $ordre);
-        return $this->render($this->pageCategoriesAdmin, [
-            'categories' => $categories
-        ]);
-    }
-
-    /**
-     * Méthode de suppression d'une catégorie
-     * @Route("/admin/categories/suppr/{id}", name="admin.categorie.suppr")
+     * Suppression d'une catégorie et redirection vers la page d'administration
+     * @Route("/admin/categories/suppr/{id}", name="admin.suppr.categorie")
      * @param Categorie $categorie
      * @return Response
-    */ 
+     */
     public function suppr(Categorie $categorie): Response{
         $this->categorieRepository->remove($categorie, true);
-        return $this->redirectToRoute($this->redirectToAC);
+        return $this->redirectToRoute('admin.categories');
     }
-
+    
     /**
-     * Méthode d'ajout d'une catégorie
-     * @Route("/admin/categories/ajout", name="admin.categorie.ajout")
-     * @param Request $request 
+     * Ajout d'une catégorie et redirection vers la page d'administration
+     * @Route("/admin/categories/ajout", name="admin.ajout.categorie")
+     * @param Request $request
      * @return Response
      */
     public function ajout(Request $request): Response{
-        $categories = new Categorie();
-        $formCategorie = $this->createForm(CategorieType::class, $categories);
-        $formCategorie->handleRequest($request);
-        if($formCategorie->isSubmitted() && $formCategorie->isValid()){
+        $name = $request->get("name");
+        $nomcategorie = $this->categorieRepository->findAllEqual($name);
+        
+        if ($nomcategorie == false) {
+            $categories = new Categorie();
+            $categories->setName($name);
             $this->categorieRepository->add($categories, true);
             return $this->redirectToRoute('admin.categories');
         }
-        return $this->render("admin/admin.categorie.ajout.html.twig", [
+        return $this->redirectToRoute('admin.categories');
+    }
+    
+    /**
+     * Tri les enregistrements selon le champ et l'ordre
+     * @Route("/admin/categories/tri/{champ}/{ordre}", name="admin.categories.sort")
+     * @param type $champ
+     * @param type $ordre
+     * @return Response
+     */
+    public function sort($champ, $ordre): Response{
+        $categories = $this->categorieRepository->findAllOrderBy($champ, $ordre);
+        $formations = $this->formationRepository->findAll();
+        return $this->render('/admin/admin.categories.html.twig', [
+            'formations' => $formations,
             'categories' => $categories,
-            'formcategorie' => $formCategorie->createView()
         ]);
     }
 }

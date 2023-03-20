@@ -18,18 +18,18 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PlaylistControllerTest extends WebTestCase{
     /**
-     * Test qui contrôle l'accès de la page des playlists
+     * Test d'accès à la page des playlists
      */
     public function testAccesPage(){
        $client = static::createClient();
        $client->request('GET', '/playlists');
        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
    }
-   
+    
    /**
-    * Test qui contrôle le tri croissant des playlists
+    * Teste le tri des playlists selon leur nom, dans un ordre ascendant
     */
-   public function testTriPlaylists()
+    public function testTriPlaylists()
     {
         $client = static::createClient();
         $crawler = $client->request('GET', 'playlists/tri/name/ASC');
@@ -39,7 +39,8 @@ class PlaylistControllerTest extends WebTestCase{
     }
     
     /**
-     * Test qui contrôle le tri croissant des playlists par leur nombre de formations
+     * Teste le tri des playlists selon le nombre de formations 
+     * dans l'ordre ascendant
      */
     public function testTriNbFormations()
     {
@@ -51,7 +52,7 @@ class PlaylistControllerTest extends WebTestCase{
     }
     
     /**
-     * Test qui contrôle le tri par filtre des playlists
+     * Teste le filtrage des playlists selon la valeur recherchée
      */
     public function testFiltrePlaylists()
     {
@@ -65,9 +66,9 @@ class PlaylistControllerTest extends WebTestCase{
         // vérifie si la formation correspond à la recherche
          $this->assertSelectorTextContains('h5', 'sujet');
     }
-
+    
     /**
-     * Test qui contrôle le tri par filtre des catégories
+     * Teste le filtrage des catégories selon la valeur recherchée
      */
     public function testFiltreCategories()
     {
@@ -81,9 +82,9 @@ class PlaylistControllerTest extends WebTestCase{
         // vérifie si la formation correspond à la recherche
          $this->assertSelectorTextContains('h5', 'Android - Test playlist');
     }
-
+    
     /**
-     * Test qui contrôle l'accès au détail d'une playlist
+     * Test du lien qui redirige l'utilisateur vers la page de détail de la playlist
      */
     public function testLinkPlaylists() {
         $client = static::createClient();

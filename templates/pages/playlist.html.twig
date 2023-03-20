@@ -3,19 +3,14 @@
     <div class="row mt-3">
         <div class="col">
             <h4 class="text-info mt-5">{{ playlist.name }}</h4>
+            <strong>Nombre de formations : </strong>{{ 
+                playlistformations|length}}
             <strong>Catégories : </strong>
                 <!-- boucle pour afficher les catégories -->
                 {% set anccategorie = '' %}
                 {% for playlist in playlistcategories %}
                     {{ playlist.name }}&nbsp;
                 {% endfor %}
-            <br /><br />
-             <strong>Nombre de formations disponibles : </strong>
-                {% set count = 0 %}
-                {% for id in playlistformations %}
-                    {% set count = count +1 %}
-                {% endfor %}
-            <br />{{ count }}
             <br /><br />
             <strong>Description :</strong><br />
                 {{ playlist.description|nl2br }}
@@ -27,8 +22,7 @@
                     <div class="col-md-auto">
                         {% if formation.miniature %}
                             <a href="{{ path('formations.showone', {id:formation.id}) }}">
-                                <img alt="miniature formation"
-                                    src="{{ formation.miniature }}">
+                                <img src="{{ formation.miniature }}" alt="image réduite de formation">
                             </a>
                         {% endif %}  
                     </div>

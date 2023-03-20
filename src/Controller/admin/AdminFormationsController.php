@@ -12,180 +12,146 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Description of AdminFormationsController
+ * Gère les routes de la page d'administration des formations
  *
  * @author uu0✿
  */
 class AdminFormationsController extends AbstractController {
-
-    /**
-     * @var type String
-     */
-    private $pageFormationAdmin = "admin/admin.formations.html.twig";
     
     /**
-     * @var type
-     */
-    private $pageFormationAdminAjt = "admin/admin.formation.ajout.html.twig";
-    
-     /**
-     * @var type String
-     */
-    private $redirectToAF = "admin.formations";
-    
-    /**
+     * 
      * @var FormationRepository
      */
     private $formationRepository;
-
+    
     /**
      * 
      * @var CategorieRepository
      */
     private $categorieRepository;
-
+    
     /**
-     * Constructeur
+     * Création du constructeur
      * @param FormationRepository $formationRepository
-     * @param CategorieRepository $categorieRepository
      */
-    public function __construct(FormationRepository $formationRepository, CategorieRepository $categorieRepository) {
+    function __construct(FormationRepository $formationRepository, CategorieRepository $categorieRepository) {
         $this->formationRepository = $formationRepository;
         $this->categorieRepository = $categorieRepository;
     }
-
+    
     /**
+     * Création de la route vers la page d'administration des formations
      * @Route("/admin", name="admin.formations")
      * @return Response
      */
-    public function index(): Response {
-        $formations = $this->formationRepository->findAll();
+    public function index(): Response{
+        $formations = $this->formationRepository->findAllOrderBy('title', 'ASC');
         $categories = $this->categorieRepository->findAll();
-        return $this->render($this->pageFormationAdmin, [
-                    'formations' => $formations,
-                    'categories' => $categories
+        return $this->render("admin/admin.formations.html.twig", [
+            'formations' => $formations,
+            'categories' => $categories
         ]);
     }
     
     /**
-     * Méthode de suppression d'une formation
-     * @Route ("/admin/suppr/{id}", name="admin.formation.suppr")
-     * @param Formation $formation
+     * Suppression d'une formation
+     * @Route("/admin/suppr.formation/{id}", name="admin.suppr.formation")
+     * @param Formation $formations
      * @return Response
      */
-   public function suppr(Formation $formation): Response{
-       $this->formationRepository->remove($formation, true);
-       return $this->redirectToRoute($this->redirectToAF);
-   }
-   
-   /**
-    * Méthode de modification d'une formation
-    * Création du formulaire, récupèration de la requête (handleRequest), test validité formulaire
-    * @Route ("/admin/edit/{id}", name="admin.formation.edit")
-    * @param Formation $formation
-    * @return Response
-    */
-   public function edit(Formation $formation, Request $request):Response{
-       $formFormation = $this->createForm(FormationType::class, $formation);
-
-       $formFormation->handleRequest($request);
-       if($formFormation->isSubmitted() && $formFormation->isValid()){
-           $this->repository->add($formation, true);
-           return $this->redirectToRoute($this->redirectToAF);
-       }
-       return $this->render($this->pageFormationAdmin, [
-           'formation' => $formation,
-           'formformation' => $formFormation->createView()
-       ]);
-   }
-   
-   /**
-    * Méthode d'ajout d'une formation
-    * @Route ("/admin/ajout", name="admin.formation.ajout")
-    * @param Request $request
-    * @return Response
-    */
-   public function ajout(Request $request): Response{
-       $formations = new Formation();
-       $formFormation = $this->createForm(FormationType::class, $formations);
-       
+    public function suppr(Formation $formations): Response{
+        $this->formationRepository->remove($formations, true);
+        return $this->redirectToRoute('admin.formations');
+    }
+    
+    /**
+     * Edition d'une formation
+     * @Route("/admin/edit/{id}", name="admin.edit.formations")
+     * @param Formation $formations
+     * @param Request $request
+     * @return Response
+     */
+    public function edit(Formation $formations, Request $request): Response{
+        $formFormation = $this->createForm(FormationType::class, $formations);
+        
         $formFormation->handleRequest($request);
-        if($formFormation->isSubmitted()&& $formFormation->isValid()){
+        if($formFormation->isSubmitted() && $formFormation->isValid()){
             $this->formationRepository->add($formations, true);
-            return $this->redirectToRoute($this->redirectToAF);
+            return $this->redirectToRoute('admin.formations');
         }
-        return $this->render($this->pageFormationAdminAjt, [
+        
+        return $this->render("admin/admin.formation.edit.html.twig", [
+            'formations' => $formations,
+            'formformation' => $formFormation->createView()
+        ]);
+    }
+    
+    /**
+     * Ajout d'une formation
+     * @Route("/admin/ajout", name="admin.ajout.formations")
+     * @param Request $request
+     * @return Response
+     */
+    public function ajout(Request $request): Response{
+        $formations = new Formation();
+        $formFormation = $this->createForm(FormationType::class, $formations);
+        
+        $formFormation->handleRequest($request);
+        if($formFormation->isSubmitted() && $formFormation->isValid()){
+            $this->formationRepository->add($formations, true);
+            return $this->redirectToRoute('admin.formations');
+        }
+        
+        return $this->render("admin/admin.formation.ajout.html.twig", [
             'formations' => $formations,
             'formformation' => $formFormation->createView()                
         ]);
     }
-   
-    /**
-     * Méthode de tri des formations
-     * @Route("/admin/tri/{champ}/{ordre}/{table}", name="admin.formations.sort")
+    
+     /**
+     * Retourne toutes les formations triées sur un champ
+     * Et sur un champ si autre table
+     * @Route("/admin/formations/tri/{champ}/{ordre}/{table}", name="admin.formations.sort")
      * @param type $champ
      * @param type $ordre
      * @param type $table
      * @return Response
      */
     public function sort($champ, $ordre, $table=""): Response{
-        if($table!=""){
-           $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
+        if($table != ""){
+            $formations = $this->formationRepository->findAllOrderByTable($champ, $ordre, $table);
         }else{
-            $formations = $this->formationRepository->findByOrderBy($champ, $ordre);
+            $formations = $this->formationRepository->findAllOrderBy($champ, $ordre);
         }
         $categories = $this->categorieRepository->findAll();
-        return $this->render($this->pageFormationAdmin, [
+        return $this->render('admin/admin.formations.html.twig', [
             'formations' => $formations,
             'categories' => $categories
         ]);
-    }   
+    }
     
-     /**
-     * Méthode de recherche d'une formation en fonction d'un champs
+    /**
+     * Récupère les enregistrements selon le champ et la valeur,
+     * Et si le champ est dans une autre table
      * @Route("/admin/formations/recherche/{champ}/{table}", name="admin.formations.findallcontain")
      * @param type $champ
      * @param Request $request
      * @param type $table
      * @return Response
      */
-    public function findAllContain($champ, Request $request, $table = ""): Response {
-        if ($this->isCsrfTokenValid('filtre_' . $champ, $request->get('_token'))) {
-            $valeur = $request->get("recherche");
-            if ($table != "") {
-                $formations = $this->formationRepository->findByContainValueTable($champ, $valeur, $table);
-            } else {
-                $formations = $this->formationRepository->findByContainValue($champ, $valeur, $table);
-            }
-            $categories = $this->categorieRepository->findAll();
-            return $this->render($this->pageFormationAdmin, [
-                        'formations' => $formations,
-                        'categories' => $categories,
-                        'valeur' => $valeur,
-                        'table' => $table
-            ]); 
-        }
-        return $this->redirectToRoute($this->redirectToAF);
-    }
-    
-    /**
-     * Méthode de recherche d'une formation en fonction d'un champs
-     * @Route("/admin/formations/rechercher/{champ}/{table}", name="admin.formations.findallcontaincategories")
-     * @param type $champ
-     * @param Request $request
-     * @param type $table
-     * @return Response
-     */
-    public function findAllContainCategories($champ, Request $request, $table): Response {
+    public function findAllContain($champ, Request $request, $table=""): Response{
         $valeur = $request->get("recherche");
-        $formations = $this->formationRepository->findByContainValueTable($champ, $valeur, $table);
+        if($table !=""){
+            $formations = $this->formationRepository->findByContainValueTable($champ, $valeur, $table);
+        }else{
+            $formations = $this->formationRepository->findByContainValue($champ, $valeur);
+        }
         $categories = $this->categorieRepository->findAll();
-        return $this->render($this->pageFormationAdmin, [
-                    'formations' => $formations,
-                    'categories' => $categories,
-                    'valeur' => $valeur,
-                    'table' => $table
+        return $this->render('admin/admin.formations.html.twig', [
+            'formations' => $formations,
+            'categories' => $categories,
+            'valeur' => $valeur,
+            'table' => $table
         ]);
-    }
-
+    }  
 }

@@ -28,39 +28,39 @@ class CategorieRepositoryTest extends KernelTestCase{
         $repository = self::getContainer()->get(CategorieRepository::class);
         return $repository;
     }
-
+    
     /**
      * Récupère le nombre d'enregistrements contenus dans la table Catégorie
      */
     public function testNbCategories(){
         $repository = $this->recupRepository();
         $nbCategories = $repository->count([]);
-        $this->assertEquals(9, $nbCategories);
+        $this->assertEquals(10, $nbCategories);
     }
-
+    
     /**
      * Création d'une instance de Catégorie avec les champs
      * @return Categorie
      */
     public function newCategorie(): Categorie{
         $categorie = (new Categorie())
-                ->setName("CatégorieTest");
+                ->setName("CATEGORIE TEST");
         return $categorie;
     }
     
     /**
-     * Test qui contrôle l'ajout d'une catégorie
+     * Teste la fonction d'ajout d'une catégorie
      */
-     public function testAddCategorie(){
+    public function testAddCategorie(){
         $repository = $this->recupRepository();
         $categorie = $this->newCategorie();
         $nbCategories = $repository->count([]);
         $repository->add($categorie, true);
-        $this->assertEquals($nbCategories + 1, $repository->count([]), "erreur lors de l'ajout d'une catégorie");
+        $this->assertEquals($nbCategories + 1, $repository->count([]), "erreur lors de l'ajout");
     }
-
+    
     /**
-     * Test qui contrôle la suppression d'une catégorie
+     * Teste la fonction de suppression d'une catégorie
      */
     public function testRemoveCategorie(){
         $repository = $this->recupRepository();
@@ -68,13 +68,13 @@ class CategorieRepositoryTest extends KernelTestCase{
         $repository->add($categorie, true);
         $nbCategories = $repository->count([]);
         $repository->remove($categorie, true);
-        $this->assertEquals($nbCategories - 1, $repository->count([]), "erreur lors de la suppression d'une catégorie");
+        $this->assertEquals($nbCategories - 1, $repository->count([]), "erreur lors de la suppression");
     }
     
     /**
-     * Test qui contrôle la recherche d'une catégorie par sa playlist
+     * Teste la fonction de récupération des catégories des formations d'une playlist
      */
-     public function testFindAllForOnePlaylist(){
+    public function testFindAllForOnePlaylist(){
         $repository = $this->recupRepository();
         $categorie = $this->newCategorie();
         $repository->add($categorie, true);
@@ -82,5 +82,18 @@ class CategorieRepositoryTest extends KernelTestCase{
         $nbCategories = count($categories);
         $this->assertEquals(2, $nbCategories);
         $this->assertEquals("POO",$categories[0]->getName());
+    }
+    
+    /**
+     * Teste la fonction de tri d'un champ dans un ordre défini
+     */
+    public function testFindAllOrderBy(){
+        $repository = $this->recupRepository();
+        $categorie = $this->newCategorie();
+        $repository->add($categorie, true);
+        $categories = $repository->findAllOrderBy("name", "ASC");
+        $nbCategories = count($categories);
+        $this->assertEquals(11, $nbCategories);
+        $this->assertEquals("Android", $categories[0]->getName());
     }
 }

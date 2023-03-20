@@ -45,7 +45,7 @@ class PlaylistRepository extends ServiceEntityRepository {
     }
 
     /**
-     * Méthode d'ajout d'une playlist
+     * Ajout d'une playlist
      * @param Playlist $entity
      * @param bool $flush
      * @return void
@@ -59,7 +59,7 @@ class PlaylistRepository extends ServiceEntityRepository {
     }
 
     /**
-     * Méthode de suppression d'une playlist
+     *Suppression d'une playlist
      * @param Playlist $entity
      * @param bool $flush
      * @return void
@@ -73,7 +73,7 @@ class PlaylistRepository extends ServiceEntityRepository {
     }
 
     /**
-     * Méthode de tri sur le nom d'une playlist
+     * Retourne toutes les playlists triées sur le nom de la playlist
      * @param type $ordre
      * @return Playlist[]
      */
@@ -87,18 +87,18 @@ class PlaylistRepository extends ServiceEntityRepository {
     }
 
     /**
-     * Méthode de tri sur le nombre de formation d'une playlist
+     * Retourne toutes les playlists triées sur le nombre de formations     
      * @param type $ordre
      * @return Playlist[]
      */
-    public function findAllOrderByNbFormation($ordre): array {
-        return $this->createQueryBuilder('p')
-                        ->leftjoin($this->formations, 'f')
-                        ->groupBy($this->idPlaylist)
-                        ->orderBy('count(f.title)', $ordre)
-                        ->getQuery()
-                        ->getResult();
-    }
+    public function findAllOrderByNbFormations($ordre): array{
+        return $this->createQueryBuilder('p')                
+                ->leftjoin($this->formations, 'f')               
+                ->groupBy('p.id')             
+                ->orderBy('count(p.name)', $ordre)                
+                ->getQuery()
+                ->getResult();       
+    }    
 
     /**
      * Méthode de tri d'une playlist sur un champ entré
@@ -108,7 +108,7 @@ class PlaylistRepository extends ServiceEntityRepository {
      */
     public function findByContainValue($champ, $valeur): array {
         if ($valeur == "") {
-            return $this->findAll();
+            return $this->findAllOrderByName();
         } else {
             return $this->createQueryBuilder('p')
                             ->leftjoin($this->formations, 'f')
@@ -122,8 +122,8 @@ class PlaylistRepository extends ServiceEntityRepository {
     }
 
     /**
-     * Retourne la valeur renseignée en fonction du champ
-     * Ou tous les enregistrements si la valeur est null
+     * Enregistrements dont un champ contient une valeur
+     * Et "table" en paramètre
      * Avec $champ présent dans une autre entité
      * @param type $champ
      * @param type $valeur
@@ -132,7 +132,7 @@ class PlaylistRepository extends ServiceEntityRepository {
      */
     public function findByContainValueTable($champ, $valeur, $table): array {
         if ($valeur == "") {
-            return $this->findAll();
+            return $this->findAllOrderByName();
         } else {
             return $this->createQueryBuilder('p')
                             ->leftjoin($this->formations, 'f')

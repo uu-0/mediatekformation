@@ -1,11 +1,11 @@
 {% extends "basefront.html.twig" %}
 {% block body %}
     <table class="table table-striped">
-        <caption>Table</caption>
+        <caption></caption>
         <thead>
             <tr>
                 <th class="text-left align-top" scope="col">
-                    Formation<br />
+                    formation<br />
                     <a href="{{ path('formations.sort', {champ:'title', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
                     <a href="{{ path('formations.sort', {champ:'title', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
                     <form class="form-inline mt-1" method="POST" action="{{ path('formations.findallcontain', {champ:'title'}) }}">
@@ -18,7 +18,7 @@
                     </form>                    
                 </th>
                 <th class="text-left align-top" scope="col">
-                    Playlist<br />
+                    playlist<br />
                     <a href="{{ path('formations.sort', {table:'playlist', champ:'name', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
                     <a href="{{ path('formations.sort', {table:'playlist', champ:'name', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
                     <form class="form-inline mt-1" method="POST" action="{{ path('formations.findallcontain', {champ:'name', table:'playlist'}) }}">
@@ -31,9 +31,9 @@
                     </form>                    
                 </th>
                 <th class="text-left align-top" scope="col">
-                    Catégories
+                    catégories
                     <form class="form-inline mt-1" method="POST" action="{{ path('formations.findallcontain', {champ:'id', table:'categories'}) }}">
-                        <select class="form-select form-select-sm" name="recherche" id="recherche" onchange="this.form.submit();">
+                        <select class="form-select form-select-sm" name="recherche" id="recherche" onchange="this.form.submit()">
                             <option value=""></option>
                             {% for categorie in categories %}
                                 <option 
@@ -47,7 +47,7 @@
                     </form>            
                 </th>
                 <th class="text-center align-top" scope="col">
-                    Date<br />
+                    date<br />
                     <a href="{{ path('formations.sort', {champ:'publishedAt', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
                     <a href="{{ path('formations.sort', {champ:'publishedAt', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>                    
                 </th>
@@ -65,7 +65,7 @@
                         </h5>
                     </td>
                     <td class="text-left">
-                        {{ formation.playlist.name }}                  
+                        {{ formation.playlist.name }}                
                     </td>                    
                     <td class="text-left">
                         {% for categorie in formation.categories %}
@@ -78,8 +78,7 @@
                     <td class="text-center">
                         {% if formation.miniature %}
                             <a href="{{ path('formations.showone', {id:formation.id}) }}">
-                                <img alt="miniature formation"
-                                    src="{{ formation.miniature }}">
+                                <img src="{{ formation.miniature }}" alt="image réduite de formation">
                             </a>
                         {% endif %}
                     </td>

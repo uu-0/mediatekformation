@@ -8,8 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
+define("FORMATION", "pages/formations.html.twig");
+
 /**
- * Controleur des formations
+ * Gère les routes de la page des formations
  *
  * @author emds
  */
@@ -17,16 +20,10 @@ class FormationsController extends AbstractController {
 
     /**
      * 
-     * @var type String
-     */
-    private $pagesFormations = "pages/formations.html.twig";
-
-    /**
-     * 
      * @var FormationRepository
      */
     private $formationRepository;
-
+    
     /**
      * 
      * @var CategorieRepository
@@ -34,7 +31,7 @@ class FormationsController extends AbstractController {
     private $categorieRepository;
     
     /**
-     * Constructeur de FormationController
+     * Création du constructeur
      * @param FormationRepository $formationRepository
      * @param CategorieRepository $categorieRepository
      */
@@ -42,22 +39,24 @@ class FormationsController extends AbstractController {
         $this->formationRepository = $formationRepository;
         $this->categorieRepository= $categorieRepository;
     }
-
+    
     /**
+     * Création de la route vers la page des formations
      * @Route("/formations", name="formations")
      * @return Response
      */
     public function index(): Response{
         $formations = $this->formationRepository->findAll();
         $categories = $this->categorieRepository->findAll();
-        return $this->render($this->pagesFormations, [
+        return $this->render("pages/formations.html.twig", [
             'formations' => $formations,
             'categories' => $categories
         ]);
     }
 
     /**
-     * Tri les formations 
+     * Tri les enregistrements selon le $champ et l'ordre
+     * Et sur le $champ et l'ordre si autre $table
      * @Route("/formations/tri/{champ}/{ordre}/{table}", name="formations.sort")
      * @param type $champ
      * @param type $ordre
@@ -65,20 +64,22 @@ class FormationsController extends AbstractController {
      * @return Response
      */
     public function sort($champ, $ordre, $table=""): Response{
-        if($table!=""){
-           $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
-        }else{
-            $formations = $this->formationRepository->findByOrderBy($champ, $ordre, $table="");
+        if($table !=""){
+            $formations = $this->formationRepository->findAllOrderByTable($champ, $ordre, $table);
+        }else 
+        {
+            $formations = $this->formationRepository->findAllOrderBy($champ, $ordre);
         }
         $categories = $this->categorieRepository->findAll();
-        return $this->render($this->pagesFormations, [
+        return $this->render(FORMATION, [
             'formations' => $formations,
             'categories' => $categories
         ]);
     }     
-
+    
     /**
-     * Recherche une formation 
+     * Récupère les enregistrements selon le $champ et la $valeur
+     * Et selon le $champ et la $valeur si autre $table
      * @Route("/formations/recherche/{champ}/{table}", name="formations.findallcontain")
      * @param type $champ
      * @param Request $request
@@ -87,22 +88,22 @@ class FormationsController extends AbstractController {
      */
     public function findAllContain($champ, Request $request, $table=""): Response{
         $valeur = $request->get("recherche");
-        if($table != ""){
-            $formations = $this->formationRepository->findByContainValue($champ, $valeur, $table); 
+        if($table !=""){
+            $formations = $this->formationRepository->findByContainValueTable($champ, $valeur, $table);
         }else{
-            $formations = $this->formationRepository->findByContainValueTableEmpty($champ, $valeur, $table="");
+            $formations = $this->formationRepository->findByContainValue($champ, $valeur);
         }
         $categories = $this->categorieRepository->findAll();
-        return $this->render($this->pagesFormations, [
+        return $this->render(FORMATION, [
             'formations' => $formations,
             'categories' => $categories,
             'valeur' => $valeur,
             'table' => $table
         ]);
     }  
-
+    
     /**
-     * Affiche le détail d'une formation
+     * Récupère les enregistrements des formations individuelles
      * @Route("/formations/formation/{id}", name="formations.showone")
      * @param type $id
      * @return Response
@@ -113,5 +114,5 @@ class FormationsController extends AbstractController {
             'formation' => $formation
         ]);        
     }   
-
+    
 }

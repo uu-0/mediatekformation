@@ -21,17 +21,17 @@ class FormationControllerTest extends WebTestCase{
     private const FORMATIONSPATH = '/formations';
     
     /**
-     * Test qui contrôle l'accès de la page des formations
+    * Teste l'acces de la page des formations
     */
     public function testAccesPage() {
         $client = static::createClient();
         $client->request('GET', self::FORMATIONSPATH);
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-
+        
     }
     
     /**
-     * Test qui vérifie le tri croissant des playlists
+     * Teste le tri ascendant selon le nom des playlists
      */
     public function testPlaylistsTriAsc(){
         $client = static::createClient();
@@ -42,7 +42,7 @@ class FormationControllerTest extends WebTestCase{
     }
     
     /**
-     * Test qui vérifie le tri croissant des formations
+     * Teste le tri ascendant selon le titre des formations
      */
     public function testFormationsTriAsc(){
         $client = static::createClient();
@@ -53,9 +53,9 @@ class FormationControllerTest extends WebTestCase{
     }
     
     /**
-     * Test qui vérifie le tri par date
+     * Teste le tri ascendant selon la date de publication
      */
-     public function testTriDate()
+    public function testTriDate()
     {
         $client = static::createClient();
         $crawler = $client->request('GET', 'formations/tri/publishedAt/ASC');
@@ -65,9 +65,9 @@ class FormationControllerTest extends WebTestCase{
     }
     
     /**
-     * Test qui contrôle le tri par filtre des formations
+     * Teste le filtrage des formations selon la valeur recherchée
      */
-     public function testFiltreFormations()
+    public function testFiltreFormations()
     {
         $client = static::createClient();
         $client->request('GET', '/formations'); 
@@ -81,9 +81,9 @@ class FormationControllerTest extends WebTestCase{
     }
     
     /**
-     * Test qui contrôle le tri par filtre des playlists
+     * Teste le filtrage des playlists selon la valeur recherchée
      */
-     public function testFiltrePlaylists()
+    public function testFiltrePlaylists()
     {
         $client = static::createClient();
         $client->request('GET', '/formations/recherche/name/playlist'); 
@@ -97,7 +97,7 @@ class FormationControllerTest extends WebTestCase{
     }
     
     /**
-     * Test qui contrôle le tri par filtre des catégories
+     * Teste le filtrage des catégories selon la valeur recherchée
      */
     public function testFiltreCategories()
     {
@@ -113,7 +113,7 @@ class FormationControllerTest extends WebTestCase{
     }
     
     /**
-     * Test qui contrôle l'accès au détail d'une formation
+     * Teste du lien qui redirige l'utilisateur vers la page de détail de la formation
      */
     public function testLinkFormations() {
         $client = static::createClient();
