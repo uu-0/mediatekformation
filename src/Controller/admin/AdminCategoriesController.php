@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+define("ADMINCATEGORIES", "/admin/admin.categories.html.twig");
+
 /**
  * Gère les routes de la page d'administration des catégories
  *
@@ -47,7 +49,7 @@ class AdminCategoriesController extends AbstractController {
     public function index(): Response{
         $formations = $this->formationRepository->findAll();
         $categories = $this->categorieRepository->findAll();
-        return $this->render("/admin/admin.categories.html.twig", [
+        return $this->render(ADMINCATEGORIES, [
             'formations' => $formations,
             'categories' => $categories,
         ]);
@@ -93,7 +95,7 @@ class AdminCategoriesController extends AbstractController {
     public function sort($champ, $ordre): Response{
         $categories = $this->categorieRepository->findAllOrderBy($champ, $ordre);
         $formations = $this->formationRepository->findAll();
-        return $this->render('/admin/admin.categories.html.twig', [
+        return $this->render(ADMINCATEGORIES, [
             'formations' => $formations,
             'categories' => $categories,
         ]);

@@ -9,7 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-define("FORMATION", "pages/formations.html.twig");
+define("FORMATIONS", "pages/formations.html.twig");
+
+define("FORMATION", "pages/formation.html.twig");
 
 /**
  * Gère les routes de la page des formations
@@ -48,7 +50,7 @@ class FormationsController extends AbstractController {
     public function index(): Response{
         $formations = $this->formationRepository->findAll();
         $categories = $this->categorieRepository->findAll();
-        return $this->render("pages/formations.html.twig", [
+        return $this->render(FORMATIONS, [
             'formations' => $formations,
             'categories' => $categories
         ]);
@@ -71,7 +73,7 @@ class FormationsController extends AbstractController {
             $formations = $this->formationRepository->findAllOrderBy($champ, $ordre);
         }
         $categories = $this->categorieRepository->findAll();
-        return $this->render(FORMATION, [
+        return $this->render(FORMATIONS, [
             'formations' => $formations,
             'categories' => $categories
         ]);
@@ -94,7 +96,7 @@ class FormationsController extends AbstractController {
             $formations = $this->formationRepository->findByContainValue($champ, $valeur);
         }
         $categories = $this->categorieRepository->findAll();
-        return $this->render(FORMATION, [
+        return $this->render(FORMATIONS, [
             'formations' => $formations,
             'categories' => $categories,
             'valeur' => $valeur,
@@ -110,7 +112,7 @@ class FormationsController extends AbstractController {
      */
     public function showOne($id): Response{
         $formation = $this->formationRepository->find($id);
-        return $this->render("pages/formation.html.twig", [
+        return $this->render(FORMATION, [
             'formation' => $formation
         ]);        
     }   

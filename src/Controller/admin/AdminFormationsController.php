@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+define("ADMINFORMATIONS", "/admin/admin.formations.html.twig");
+
 /**
  * Gère les routes de la page d'administration des formations
  *
@@ -47,7 +49,7 @@ class AdminFormationsController extends AbstractController {
     public function index(): Response{
         $formations = $this->formationRepository->findAllOrderBy('title', 'ASC');
         $categories = $this->categorieRepository->findAll();
-        return $this->render("admin/admin.formations.html.twig", [
+        return $this->render(ADMINFORMATIONS, [
             'formations' => $formations,
             'categories' => $categories
         ]);
@@ -124,7 +126,7 @@ class AdminFormationsController extends AbstractController {
             $formations = $this->formationRepository->findAllOrderBy($champ, $ordre);
         }
         $categories = $this->categorieRepository->findAll();
-        return $this->render('admin/admin.formations.html.twig', [
+        return $this->render(ADMINFORMATIONS, [
             'formations' => $formations,
             'categories' => $categories
         ]);
@@ -147,7 +149,7 @@ class AdminFormationsController extends AbstractController {
             $formations = $this->formationRepository->findByContainValue($champ, $valeur);
         }
         $categories = $this->categorieRepository->findAll();
-        return $this->render('admin/admin.formations.html.twig', [
+        return $this->render(ADMINFORMATIONS, [
             'formations' => $formations,
             'categories' => $categories,
             'valeur' => $valeur,

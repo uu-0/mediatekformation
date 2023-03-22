@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+define("ADMINPLAYLITS", "/admin/admin.playlits.html.twig");
+
 /**
  * Gère les routes de la page d'administration des playlists
  *
@@ -58,7 +60,7 @@ class AdminPlaylistsController extends AbstractController {
     public function index(): Response{
         $playlists= $this->playlistRepository->findAllOrderByName('ASC');
         $categories = $this->categorieRepository->findAll();
-        return $this->render("admin/admin.playlists.html.twig", [
+        return $this->render(ADMINPLAYLITS, [
             'playlists' => $playlists,
             'categories' => $categories
         ]);
@@ -137,7 +139,7 @@ class AdminPlaylistsController extends AbstractController {
                 break;
         }
         $categories = $this->categorieRepository->findAll();
-        return $this->render("admin/admin.playlists.html.twig", [
+        return $this->render(ADMINPLAYLITS, [
             'playlists' => $playlists,
             'categories' => $categories
         ]);
@@ -161,7 +163,7 @@ class AdminPlaylistsController extends AbstractController {
         }
         $categories = $this->categorieRepository->findAll();
 
-        return $this->render("admin/admin.playlists.html.twig", [
+        return $this->render(ADMINPLAYLITS, [
             'playlists' => $playlists,
             'categories' => $categories,
             'valeur' => $valeur,
