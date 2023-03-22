@@ -6,6 +6,13 @@ use App\Entity\Playlist;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+define("PIDID", "p.id id");
+define("PNAMENAME", "p.name name");
+define("CNAME", "c.name");
+define("PFORMATIONS", "p.formations");
+define("CNCATEGORIENAME", "c.name categoriename");
+define("FCATEGORIES", "f.categories");
+
 /**
  * @extends ServiceEntityRepository<Playlist>
  *
@@ -16,41 +23,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PlaylistRepository extends ServiceEntityRepository {
 
-    /**
-     * @var type String playlist id
-     */
-    private $idPlaylist = 'p.id';
-    
-    /**
-     * @var type String playlist name
-     */
-    private $namePlaylist = 'p.name';
-    
-    /**
-     * @var type String playlist formation
-     */
-    private $formations = 'p.formations';
-    
-    /**
-     * @var type String formation catégorie
-     */
-    private $categories = 'f.categories';
-
-    /**
-     * Constructeur de classe
-     * @param ManagerRegistry $registry
-     */
-    public function __construct(ManagerRegistry $registry) {
+    public function __construct(ManagerRegistry $registry)
+    {
         parent::__construct($registry, Playlist::class);
     }
 
-    /**
-     * Ajout d'une playlist
-     * @param Playlist $entity
-     * @param bool $flush
-     * @return void
-     */
-    public function add(Playlist $entity, bool $flush = false): void {
+    public function add(Playlist $entity, bool $flush = false): void
+    {
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {
@@ -58,34 +37,73 @@ class PlaylistRepository extends ServiceEntityRepository {
         }
     }
 
-    /**
-     *Suppression d'une playlist
-     * @param Playlist $entity
-     * @param bool $flush
-     * @return void
-     */
-    public function remove(Playlist $entity, bool $flush = false): void {
+    public function remove(Playlist $entity, bool $flush = false): void
+    {
         $this->getEntityManager()->remove($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
     }
-
+    
     /**
      * Retourne toutes les playlists triées sur le nom de la playlist
      * @param type $ordre
      * @return Playlist[]
      */
-    public function findAllOrderByName($ordre): array {
+    public function findAllOrderByName($ordre): array{
         return $this->createQueryBuilder('p')
-                        ->leftjoin($this->formations, 'f')
-                        ->groupBy($this->idPlaylist)
-                        ->orderBy($this->namePlaylist, $ordre)
-                        ->getQuery()
-                        ->getResult();
+                ->leftjoin(PFORMATIONS, 'f')
+                ->groupBy('p.id')
+                ->orderBy('p.name', $ordre)
+                ->getQuery()
+                ->getResult(); 
     }
 
+    /**
+    * Enregistrements dont un champ contient une valeur
+    * ou tous les enregistrements si la valeur est vide
+    * @param type $champ
+    * @param type $valeur
+    * @return array
+    */
+    public function findByContainValue($champ, $valeur): array{
+        if($valeur==""){
+            return $this->findAllOrderByName('ASC');
+        }
+        return $this->createQueryBuilder('p')
+            ->leftjoin(PFORMATIONS, 'f')
+            ->where('p.'.$champ.' LIKE :valeur')
+            ->setParameter('valeur', '%'.$valeur.'%')
+            ->groupBy('p.id')
+            ->orderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult(); 
+    }
+    
+    /**
+     * Enregistrements dont un champ contient une valeur
+     * Et "table" en paramètre
+     * @param type $champ
+     * @param type $valeur
+     * @param type $table
+     * @return array
+     */
+    public function findByContainValueTable($champ, $valeur, $table): array{
+        if($valeur==""){
+            return $this->findAllOrderByName('ASC');
+        }
+        return $this->createQueryBuilder('p')
+            ->leftjoin(PFORMATIONS, 'f')
+            ->leftjoin(FCATEGORIES, 'c')
+            ->where('c.'.$champ.' LIKE :valeur')
+            ->setParameter('valeur', '%'.$valeur.'%')
+            ->groupBy('p.id')                
+            ->orderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult();     
+    }
+    
     /**
      * Retourne toutes les playlists triées sur le nombre de formations     
      * @param type $ordre
@@ -93,57 +111,10 @@ class PlaylistRepository extends ServiceEntityRepository {
      */
     public function findAllOrderByNbFormations($ordre): array{
         return $this->createQueryBuilder('p')                
-                ->leftjoin($this->formations, 'f')               
+                ->leftjoin(PFORMATIONS, 'f')               
                 ->groupBy('p.id')             
                 ->orderBy('count(p.name)', $ordre)                
                 ->getQuery()
                 ->getResult();       
-    }    
-
-    /**
-     * Méthode de tri d'une playlist sur un champ entré
-     * @param type $champ
-     * @param type $valeur
-     * @return Playlist[]
-     */
-    public function findByContainValue($champ, $valeur): array {
-        if ($valeur == "") {
-            return $this->findAllOrderByName();
-        } else {
-            return $this->createQueryBuilder('p')
-                            ->leftjoin($this->formations, 'f')
-                            ->where('p.' . $champ . ' LIKE :valeur')
-                            ->setParameter('valeur', '%' . $valeur . '%')
-                            ->groupBy($this->idPlaylist)
-                            ->orderBy($this->namePlaylist, 'ASC')
-                            ->getQuery()
-                            ->getResult();
-        }
-    }
-
-    /**
-     * Enregistrements dont un champ contient une valeur
-     * Et "table" en paramètre
-     * Avec $champ présent dans une autre entité
-     * @param type $champ
-     * @param type $valeur
-     * @param type $table si $champ dans une autre table
-     * @return array
-     */
-    public function findByContainValueTable($champ, $valeur, $table): array {
-        if ($valeur == "") {
-            return $this->findAllOrderByName();
-        } else {
-            return $this->createQueryBuilder('p')
-                            ->leftjoin($this->formations, 'f')
-                            ->leftjoin($this->categories, 'c')
-                            ->where('c.' . $champ . ' LIKE :valeur')
-                            ->setParameter('valeur', '%' . $valeur . '%')
-                            ->groupBy($this->idPlaylist)
-                            ->orderBy($this->namePlaylist, 'ASC')
-                            ->getQuery()
-                            ->getResult();
-        }
-    }
-
+    }      
 }
