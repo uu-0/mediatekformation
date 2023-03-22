@@ -6,6 +6,7 @@ use App\Entity\Formation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+define("FPUBLISHEDAT", "f.publishedAt");
 
 /**
  * @extends ServiceEntityRepository<Formation>
@@ -17,26 +18,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FormationRepository extends ServiceEntityRepository
 {
-    /**
-     * @var type String date publication formation
-     */
-    private $publishedAt = 'f.publishedAt';
-    
-    /**
-     * Constructeur de classe
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Formation::class);
     }
 
-    /**
-     * Méthode d'ajout d'une formation
-     * @param Formation $entity
-     * @param bool $flush
-     * @return void
-     */
     public function add(Formation $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -97,7 +83,7 @@ class FormationRepository extends ServiceEntityRepository
         }
         return $this->createQueryBuilder('f')
                 ->where('f.'.$champ.' LIKE :valeur')
-                ->orderBy($this->publishedAt, 'DESC')
+                ->orderBy(FPUBLISHEDAT, 'DESC')
                 ->setParameter('valeur', '%'.$valeur.'%')
                 ->getQuery()
                 ->getResult();            
@@ -119,7 +105,7 @@ class FormationRepository extends ServiceEntityRepository
             return $this->createQueryBuilder('f')
                     ->join('f.'.$table, 't')                    
                     ->where('t.'.$champ.' LIKE :valeur')
-                    ->orderBy($this->publishedAt, 'DESC')
+                    ->orderBy(FPUBLISHEDAT, 'DESC')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->getQuery()
                     ->getResult();  
@@ -132,7 +118,7 @@ class FormationRepository extends ServiceEntityRepository
      */
     public function findAllLasted($nb) : array {
         return $this->createQueryBuilder('f')
-                ->orderBy($this->publishedAt, 'DESC')
+                ->orderBy(FPUBLISHEDAT, 'DESC')
                 ->setMaxResults($nb)     
                 ->getQuery()
                 ->getResult();
@@ -148,7 +134,7 @@ class FormationRepository extends ServiceEntityRepository
                 ->join('f.playlist', 'p')
                 ->where('p.id=:id')
                 ->setParameter('id', $idPlaylist)
-                ->orderBy($this->publishedAt, 'ASC')   
+                ->orderBy(FPUBLISHEDAT, 'ASC')   
                 ->getQuery()
                 ->getResult();        
     }
