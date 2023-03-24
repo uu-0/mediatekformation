@@ -11,7 +11,7 @@ jobs:
   - name: Sync files
     uses: SamKirkland/FTP-Deploy-Action@4.3.0
     with:
-      server: ftp.server.com
+      server: uu-0.com
       server-dir: /public_html/mediatekformation/
-      username: loginftp
+      username: u358942928.mediatekformation-uu-0.com
       password: ${{ secrets.ftp_password }}
