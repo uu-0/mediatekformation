@@ -35,7 +35,7 @@ class PlaylistControllerTest extends WebTestCase{
         $crawler = $client->request('GET', 'playlists/tri/name/ASC');
         $this->assertSelectorTextContains('th', 'playlist');
         $this->assertCount(4, $crawler->filter('th'));
-        $this->assertSelectorTextContains('h5', 'Android - Test playlist');
+        $this->assertSelectorTextContains('h5', 'Bases de la programmation (C#)');
     }
     
     /**
@@ -59,12 +59,12 @@ class PlaylistControllerTest extends WebTestCase{
         $client = static::createClient();
         $client->request('GET', '/playlists'); 
         $crawler = $client->submitForm('filtrer', [
-            'recherche' => 'sujet'
+            'recherche' => 'bts'
         ]);
         //vérifie le nombre de lignes obtenues
         $this->assertCount(8, $crawler->filter('h5'));
         // vérifie si la formation correspond à la recherche
-         $this->assertSelectorTextContains('h5', 'sujet');
+         $this->assertSelectorTextContains('h5', 'bts');
     }
     
     /**
@@ -75,12 +75,12 @@ class PlaylistControllerTest extends WebTestCase{
         $client = static::createClient();
         $client->request('GET', '/playlists/recherche/id/categories'); 
         $crawler = $client->submitForm('filtrer', [
-            'recherche' => 'Android'
+            'recherche' => 'android'
         ]);
         //vérifie le nombre de lignes obtenues
         $this->assertCount(3, $crawler->filter('h5'));
         // vérifie si la formation correspond à la recherche
-         $this->assertSelectorTextContains('h5', 'Android - Test playlist');
+         $this->assertSelectorTextContains('h5', 'Cours Modèle relationnel et MCD');
     }
     
     /**
@@ -93,6 +93,6 @@ class PlaylistControllerTest extends WebTestCase{
         $response = $client->getResponse();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $uri = $client->getRequest()->server->get("REQUEST_URI");
-        $this->assertEquals('/playlists/playlist/28', $uri);
+        $this->assertEquals('/playlists/playlist/1', $uri);
     }
 }

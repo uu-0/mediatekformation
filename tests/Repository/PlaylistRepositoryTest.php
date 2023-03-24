@@ -44,8 +44,8 @@ class PlaylistRepositoryTest extends KernelTestCase{
      */
     public function newPlaylist(): Playlist{
         $playlist = (new Playlist())
-                ->setName("PlaylistDeTest")
-                ->setDescription("DESCRIPTION DE PLAYLISTDETEST");
+                ->setName("test playlist")
+                ->setDescription("description");
         return $playlist;
     }
     
@@ -105,10 +105,10 @@ class PlaylistRepositoryTest extends KernelTestCase{
         $repository = $this->recupRepository();
         $playlist = $this->newPlaylist();
         $repository->add($playlist, true);
-        $playlists = $repository->findByContainValue("name", "Sujet");
+        $playlists = $repository->findByContainValue("name", "mcd");
         $nbPlaylists = count($playlists);
-        $this->assertEquals(8, $nbPlaylists);
-        $this->assertEquals("Exercices objet (sujets EDC BTS SIO)", $playlists[0]->getName());
+        $this->assertEquals(5, $nbPlaylists);
+        $this->assertEquals("Cours MCD MLD MPD", $playlists[0]->getName());
     }
     
     /**
@@ -119,9 +119,9 @@ class PlaylistRepositoryTest extends KernelTestCase{
         $repository = $this->recupRepository();
         $playlist = $this->newPlaylist();
         $repository->add($playlist, true);
-        $playlists = $repository->findByContainValue("name", "MCD", "categories");
+        $playlists = $repository->findByContainValue("name", "sql", "categories");
         $nbPlaylists = count($playlists);
-        $this->assertEquals(5, $nbPlaylists);
-        $this->assertEquals("Cours MCD MLD MPD", $playlists[0]->getName());
+        $this->assertEquals(1, $nbPlaylists);
+        $this->assertEquals("Exercices triggers, sql et correctifs (sujets EDC BTS SIO)", $playlists[0]->getName());
     }
 }

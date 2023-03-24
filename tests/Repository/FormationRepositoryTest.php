@@ -44,8 +44,8 @@ class FormationRepositoryTest extends KernelTestCase {
      */
     public function newFormation(): Formation{
         $formation = (new Formation())
-                ->setTitle("FormationDeTest")
-                ->setDescription("DESCRIPTION DE FORMATIONDETEST")
+                ->setTitle("test formation")
+                ->setDescription("description")
                 ->setPublishedAt(new DateTime("2023/01/14"));
         return $formation;
     }
@@ -82,7 +82,7 @@ class FormationRepositoryTest extends KernelTestCase {
         $repository->add($formation, true);
         $formations = $repository->findAllOrderBy("title", "ASC");
         $nbFormations = count($formations);
-        $this->assertEquals(240, $nbFormations);
+        $this->assertEquals(239, $nbFormations);
         $this->assertEquals("Android Studio (complément n°1) : Navigation Drawer et Fragment", $formations[0]->getTitle());
     }
     
@@ -96,7 +96,7 @@ class FormationRepositoryTest extends KernelTestCase {
         $repository->add($formation, true);
         $formations = $repository->findAllOrderByTable("name", "ASC", "playlist");
         $nbFormations = count($formations);
-        $this->assertEquals(238, $nbFormations);
+        $this->assertEquals(239, $nbFormations);
         $this->assertEquals("Bases de la programmation n°74 - POO : collections", $formations[0]->getTitle());
     }
     
@@ -121,10 +121,10 @@ class FormationRepositoryTest extends KernelTestCase {
         $repository = $this->recupRepository();
         $formation = $this->newFormation();
         $repository->add($formation, true);
-        $formations = $repository->findByContainValueTable("name", "Compléments Android (programmation mobile)", "playlist");
+        $formations = $repository->findByContainValueTable("name", "eclipse", "playlist");
         $nbFormations = count($formations);
-        $this->assertEquals(12, $nbFormations);
-        $this->assertEquals("Android Studio (complément n°13) : Permissions", $formations[0]->getTitle());
+        $this->assertEquals(8, $nbFormations);
+        $this->assertEquals("Eclipse n°8 : Déploiement", $formations[0]->getTitle());
     }
     
     /**

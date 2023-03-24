@@ -35,7 +35,7 @@ class CategorieRepositoryTest extends KernelTestCase{
     public function testNbCategories(){
         $repository = $this->recupRepository();
         $nbCategories = $repository->count([]);
-        $this->assertEquals(10, $nbCategories);
+        $this->assertEquals(9, $nbCategories);
     }
     
     /**
@@ -44,7 +44,7 @@ class CategorieRepositoryTest extends KernelTestCase{
      */
     public function newCategorie(): Categorie{
         $categorie = (new Categorie())
-                ->setName("CATEGORIE TEST");
+                ->setName("test catégorie");
         return $categorie;
     }
     
@@ -72,7 +72,7 @@ class CategorieRepositoryTest extends KernelTestCase{
     }
     
     /**
-     * Teste la fonction de récupération des catégories des formations d'une playlist
+     * Teste la fonction de récupération des catégories en fonction de la playlist
      */
     public function testFindAllForOnePlaylist(){
         $repository = $this->recupRepository();

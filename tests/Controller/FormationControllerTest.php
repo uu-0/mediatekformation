@@ -88,7 +88,7 @@ class FormationControllerTest extends WebTestCase{
         $client = static::createClient();
         $client->request('GET', '/formations/recherche/name/playlist'); 
         $crawler = $client->submitForm('filtrer', [
-            'recherche' => 'Eclipse'
+            'recherche' => 'eclipse'
         ]);
         //vérifie le nombre de lignes obtenues
         $this->assertCount(9, $crawler->filter('h5'));
