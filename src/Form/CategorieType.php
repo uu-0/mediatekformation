@@ -10,9 +10,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Description of CategorieType
- *
- * @author user
+ * Formulaire CategorieType
+ * 
+ * @author uu0✿
  */
 class CategorieType extends AbstractType
 {

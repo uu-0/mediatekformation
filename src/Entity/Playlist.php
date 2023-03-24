@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Entité Playlist
  * @ORM\Entity(repositoryClass=PlaylistRepository::class)
  */
 class Playlist

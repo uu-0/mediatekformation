@@ -16,9 +16,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Description of FormationType
+ * Formulaire FormationType
  *
- * @author user
+ * @author uu0✿
  */
 class FormationType extends AbstractType {
 

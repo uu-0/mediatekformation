@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Entité Formation
  * @ORM\Entity(repositoryClass=FormationRepository::class)
  */
 class Formation

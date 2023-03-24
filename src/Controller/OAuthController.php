@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Controleur Authentification
+ * Gère les routes d'authentification/logout
  *
  * @author uu0✿
  */
