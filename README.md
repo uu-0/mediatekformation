@@ -27,8 +27,5 @@ dans le cadre de mon PPE (Projet Personnel Encardé) de seconde année.
 # Portfolio
 Lien vers mon [portfolio](https://uu-0.com/pages/mediatekformation.html)
 
-Lien vers l'[application](https://mediatekformation.uu-0.com/) en ligne
-
-
 
 #                                                               © Copyright 2023 by POPCZYK Louise
